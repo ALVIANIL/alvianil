@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alvi Ibn Amzad Anil &mdash; Electrical &amp; Electronic Engineer | AI, Sensing &amp; Edge Computing</title>
+<meta name="description" content="Portfolio of Alvi Ibn Amzad Anil - Electrical and Electronic Engineering graduate (BRAC University) and Research Assistant working on machine learning, computer vision, distributed sensing and edge computing. Author of six Q1 journal publications.">
+<meta name="author" content="Alvi Ibn Amzad Anil">
+<meta name="theme-color" content="#f4f7fa">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Alvi Ibn Amzad Anil &mdash; Electrical &amp; Electronic Engineer">
+<meta property="og:description" content="AI, data science and distributed sensing systems. Research Assistant at BRAC University. Six Q1 journal publications.">
+
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ===== animated background layers ===== -->
+<canvas id="circuit" class="bg-circuit" aria-hidden="true"></canvas>
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-glow bg-glow--a" aria-hidden="true"></div>
+<div class="bg-glow bg-glow--b" aria-hidden="true"></div>
+
+<!-- ===== scroll progress ===== -->
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<!-- ===== navigation ===== -->
+<header class="nav" id="siteNav">
+  <div class="nav__inner">
+    <a class="brand" href="#home" aria-label="Home">
+      <span class="brand__chip" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="26" height="26" role="img" aria-hidden="true">
+          <rect x="8.5" y="8.5" width="15" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <rect x="13" y="13" width="6" height="6" rx="1.2" fill="currentColor" opacity=".55"/>
+          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M12 8.5V4M16 8.5V4M20 8.5V4M12 23.5V28M16 23.5V28M20 23.5V28"/>
+            <path d="M8.5 12H4M8.5 16H4M8.5 20H4M23.5 12H28M23.5 16H28M23.5 20H28"/>
+          </g>
+        </svg>
+      </span>
+      <span class="brand__text">Alvi<span class="brand__accent">.</span>Anil</span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Primary navigation">
+      <a href="#about" class="nav__link">About</a>
+      <a href="#experience" class="nav__link">Experience</a>
+      <a href="#projects" class="nav__link">Projects</a>
+      <a href="#publications" class="nav__link">Publications</a>
+      <a href="#skills" class="nav__link">Skills</a>
+      <a href="#contact" class="nav__link">Contact</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="btn btn--primary btn--sm" href="assets/files/Alvi-Ibn-Amzad-Anil-CV.pdf" download>
+        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M4.5 19.5h15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Résumé</span>
+      </a>
+      <button class="nav__burger" id="navBurger" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="nav__scrim" id="navScrim" hidden></div>
+
+<main id="main">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="home">
+  <div class="wrap hero__grid">
+
+    <div class="hero__copy">
+      <p class="eyebrow reveal"><span class="eyebrow__led" aria-hidden="true"></span>Research Assistant &middot; BRAC University</p>
+
+      <h1 class="hero__name reveal" data-delay="1">
+        Alvi Ibn<br>Amzad <span class="grad">Anil</span>
+      </h1>
+
+      <p class="hero__role reveal" data-delay="2">
+        <span class="typed" id="typed" aria-live="polite">Research Assistant, BRAC University</span><span class="caret" aria-hidden="true"></span>
+      </p>
+
+      <p class="hero__lede reveal" data-delay="3">
+        Electrical &amp; Electronic Engineering graduate (major: <strong>Electronics</strong>) working at the
+        intersection of <strong>artificial intelligence</strong>, <strong>data science</strong> and
+        <strong>distributed sensing systems</strong> &mdash; from sensor instrumentation and signal processing
+        to machine-learning pipelines deployed across edge&ndash;cloud architectures for real-time inference.
+      </p>
+
+      <div class="hero__cta reveal" data-delay="4">
+        <a class="btn btn--primary" href="#publications">
+          <span>Explore Research</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn--ghost" href="#contact">Get in touch</a>
+      </div>
+
+      <ul class="hero__chips reveal" data-delay="5">
+        <li><span aria-hidden="true">&#9679;</span> Dhaka, Bangladesh</li>
+        <li><span aria-hidden="true">&#9679;</span> Python &middot; MATLAB</li>
+        <li><span aria-hidden="true">&#9679;</span> Open to PhD / R&amp;D roles</li>
+      </ul>
+    </div>
+
+    <!-- board visual -->
+    <div class="hero__board reveal" data-delay="3">
+      <div class="board" id="board">
+        <div class="board__bar">
+          <span class="board__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="board__id">edge-node-01 / multimodal-sensing</span>
+          <span class="board__status"><i class="led" aria-hidden="true"></i>LIVE</span>
+        </div>
+
+        <div class="board__stage">
+          <svg class="chipsvg" viewBox="0 0 320 220" role="img" aria-label="Illustration of an integrated circuit with signal traces">
+            <defs>
+              <linearGradient id="chipFace" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="55%" stop-color="#eef4f8"/>
+                <stop offset="100%" stop-color="#dfe9f1"/>
+              </linearGradient>
+              <linearGradient id="traceGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#0e9c8f" stop-opacity="0"/>
+                <stop offset="50%" stop-color="#0e9c8f"/>
+                <stop offset="100%" stop-color="#0e9c8f" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="chipShadow" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#0b1721" flood-opacity="0.16"/>
+              </filter>
+            </defs>
+
+            <!-- outer traces -->
+            <g class="traces" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 40 H62 L82 60 H108"/>
+              <path d="M12 92 H70 L86 108 H108"/>
+              <path d="M12 150 H64 L84 130 H108"/>
+              <path d="M12 190 H74 L96 168 H108"/>
+              <path d="M308 44 H256 L236 64 H212"/>
+              <path d="M308 96 H250 L232 112 H212"/>
+              <path d="M308 148 H254 L234 132 H212"/>
+              <path d="M308 192 H246 L224 170 H212"/>
+              <path d="M160 8 V44"/><path d="M132 8 V30 L146 44"/><path d="M188 8 V30 L174 44"/>
+              <path d="M160 212 V176"/><path d="M132 212 V190 L146 176"/><path d="M188 212 V190 L174 176"/>
+            </g>
+
+            <!-- solder pads -->
+            <g class="pads">
+              <circle cx="12" cy="40" r="4"/><circle cx="12" cy="92" r="4"/><circle cx="12" cy="150" r="4"/><circle cx="12" cy="190" r="4"/>
+              <circle cx="308" cy="44" r="4"/><circle cx="308" cy="96" r="4"/><circle cx="308" cy="148" r="4"/><circle cx="308" cy="192" r="4"/>
+              <circle cx="132" cy="8" r="4"/><circle cx="160" cy="8" r="4"/><circle cx="188" cy="8" r="4"/>
+              <circle cx="132" cy="212" r="4"/><circle cx="160" cy="212" r="4"/><circle cx="188" cy="212" r="4"/>
+            </g>
+
+            <!-- chip pins -->
+            <g class="pins">
+              <rect x="100" y="54" width="10" height="7" rx="2"/><rect x="100" y="76" width="10" height="7" rx="2"/>
+              <rect x="100" y="98" width="10" height="7" rx="2"/><rect x="100" y="120" width="10" height="7" rx="2"/>
+              <rect x="100" y="142" width="10" height="7" rx="2"/>
+              <rect x="210" y="54" width="10" height="7" rx="2"/><rect x="210" y="76" width="10" height="7" rx="2"/>
+              <rect x="210" y="98" width="10" height="7" rx="2"/><rect x="210" y="120" width="10" height="7" rx="2"/>
+              <rect x="210" y="142" width="10" height="7" rx="2"/>
+              <rect x="126" y="38" width="7" height="10" rx="2"/><rect x="156" y="38" width="7" height="10" rx="2"/><rect x="186" y="38" width="7" height="10" rx="2"/>
+              <rect x="126" y="172" width="7" height="10" rx="2"/><rect x="156" y="172" width="7" height="10" rx="2"/><rect x="186" y="172" width="7" height="10" rx="2"/>
+            </g>
+
+            <!-- chip body -->
+            <g filter="url(#chipShadow)">
+              <rect x="106" y="46" width="108" height="128" rx="12" fill="url(#chipFace)" stroke="#c6d5e2" stroke-width="1.4"/>
+            </g>
+            <circle class="chip-notch" cx="122" cy="62" r="4.5"/>
+            <text class="chip-t1" x="160" y="100" text-anchor="middle">AI&middot;EEE</text>
+            <text class="chip-t2" x="160" y="120" text-anchor="middle">MULTIMODAL</text>
+            <text class="chip-t3" x="160" y="138" text-anchor="middle">EEG / PPG / CV</text>
+            <rect class="chip-scan" x="106" y="46" width="108" height="10" rx="5"/>
+          </svg>
+        </div>
+
+        <div class="board__scope">
+          <div class="scope__head">
+            <span class="mono">SIGNAL&nbsp;/&nbsp;CH1</span>
+            <span class="mono scope__hz" id="scopeHz">128 Hz</span>
+          </div>
+          <canvas id="scope" class="scope__canvas" aria-hidden="true"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a class="scroll-hint" href="#metrics" aria-label="Scroll to content">
+    <span class="scroll-hint__track" aria-hidden="true"><i></i></span>
+  </a>
+</section>
+
+<!-- ===================== METRICS ===================== -->
+<section class="metrics" id="metrics" aria-label="Key figures">
+  <div class="wrap">
+    <div class="metrics__grid">
+      <div class="metric reveal">
+        <div class="metric__num"><span class="count" data-to="6">0</span></div>
+        <div class="metric__label">Q1 Journal Publications</div>
+        <div class="metric__bar" aria-hidden="true"></div>
+      </div>
+      <div class="metric reveal" data-delay="1">
+        <div class="metric__num"><span class="count" data-to="3.66" data-dec="2">0</span><small>/4.00</small></div>
+        <div class="metric__label">Undergraduate CGPA</div>
+        <div class="metric__bar" aria-hidden="true"></div>
+      </div>
+      <div class="metric reveal" data-delay="2">
+        <div class="metric__num"><span class="count" data-to="3">0</span><small>&times;</small></div>
+        <div class="metric__label">Dean&rsquo;s List Awards</div>
+        <div class="metric__bar" aria-hidden="true"></div>
+      </div>
+      <div class="metric reveal" data-delay="3">
+        <div class="metric__num"><span class="count" data-to="9.8" data-dec="1">0</span></div>
+        <div class="metric__label">Highest Journal Impact Factor</div>
+        <div class="metric__bar" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="section" id="about">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-tag mono">01 &mdash; Profile</span>
+      <h2 class="sec-title">Engineering signals into <span class="grad">insight</span></h2>
+      <p class="sec-sub">From the sensor front-end to the trained model &mdash; the whole chain, end to end.</p>
+    </header>
+
+    <div class="about">
+      <div class="about__main reveal">
+        <div class="card card--pad">
+          <p>
+            I am an <strong>Electrical and Electronic Engineering</strong> graduate from BRAC University
+            (major: Electronics) and currently a <strong>Research Assistant</strong> in the Department of
+            Electrical and Electronic Engineering. My work builds machine-learning and computer-vision
+            pipelines over <strong>multimodal physiological and environmental sensor data</strong>, and
+            deploys them across <strong>edge&ndash;cloud architectures</strong> for real-time inference.
+          </p>
+          <p>
+            I am comfortable across the full data workflow: sensor instrumentation and calibration,
+            signal processing and feature engineering, model training and validation, and analysis of
+            telemetry from distributed sensor networks. I have authored and co-authored
+            <strong>six peer-reviewed Q1 journal publications</strong> spanning AI-powered cybersecurity,
+            machine learning and digital-twin simulation for energy systems, and AI/IoT-enabled
+            distributed energy storage.
+          </p>
+          <p>
+            I am a three-time <strong>Dean&rsquo;s List</strong> recipient and I care deeply about engineering
+            education, student mentorship, and contributing to excellence in teaching, research and
+            academic development.
+          </p>
+
+          <div class="pipeline" aria-label="Research workflow">
+            <div class="pipeline__step"><span class="pipeline__dot" aria-hidden="true"></span><b>Sense</b><i>instrumentation &amp; calibration</i></div>
+            <div class="pipeline__step"><span class="pipeline__dot" aria-hidden="true"></span><b>Process</b><i>DSP &amp; feature engineering</i></div>
+            <div class="pipeline__step"><span class="pipeline__dot" aria-hidden="true"></span><b>Learn</b><i>training &amp; validation</i></div>
+            <div class="pipeline__step"><span class="pipeline__dot" aria-hidden="true"></span><b>Deploy</b><i>edge inference</i></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="about__side">
+        <div class="card card--pad reveal" data-delay="1">
+          <h3 class="card__h">Research interests</h3>
+          <ul class="taglist">
+            <li>Machine Learning &amp; Computer Vision</li>
+            <li>Data Science &amp; Signal Processing</li>
+            <li>Edge &amp; Distributed Computing</li>
+            <li>IoT &amp; Cyber-Physical Systems</li>
+            <li>Biomedical AI</li>
+            <li>Wearable Healthcare &amp; Biosensors</li>
+            <li>Smart Grids &amp; Energy Storage</li>
+            <li>Cybersecurity for Power Systems</li>
+            <li>Embedded Systems</li>
+            <li>VLSI Design</li>
+          </ul>
+        </div>
+
+        <div class="card card--pad reveal" data-delay="2">
+          <h3 class="card__h">At a glance</h3>
+          <dl class="deflist">
+            <div><dt>Languages</dt><dd>English, Bangla</dd></div>
+            <div><dt>Hobbies</dt><dd>Creative writing, poetry, robotics, reading research articles</dd></div>
+            <div><dt>Location</dt><dd>Merul Badda, Dhaka&ndash;1212</dd></div>
+          </dl>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EXPERIENCE + EDUCATION ===================== -->
+<section class="section section--alt" id="experience">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-tag mono">02 &mdash; Trajectory</span>
+      <h2 class="sec-title">Experience &amp; <span class="grad">education</span></h2>
+      <p class="sec-sub">Research, leadership and academic training.</p>
+    </header>
+
+    <div class="two-col">
+      <div>
+        <h3 class="col-h reveal"><span class="col-h__icon" aria-hidden="true">&#9881;</span>Professional experience</h3>
+        <ol class="timeline">
+          <li class="tl reveal">
+            <div class="tl__node" aria-hidden="true"></div>
+            <div class="card card--pad tl__card">
+              <span class="pill pill--live">Mar 2026 &ndash; Present</span>
+              <h4 class="tl__role">Research Assistant (RA)</h4>
+              <p class="tl__org">Dept. of Electrical &amp; Electronic Engineering &middot; BSRM School of Engineering, BRAC University</p>
+              <ul class="bullets">
+                <li>Fully funded <strong>Research Seed Grant Initiative (RSGI)</strong> project on multimodal attention monitoring and stress detection using wearable sensors and computer vision.</li>
+                <li>Building the end-to-end ML pipeline: synchronized multimodal acquisition, preprocessing and artifact removal, feature engineering across physiological and visual channels, and supervised training with held-out validation.</li>
+                <li>Implementing <strong>edge computing</strong> for on-device inference under strict latency and power budgets, aggregating distributed wearable streams for centralized longitudinal storage.</li>
+                <li>Applying computer vision and DSP to extract behavioural and physiological features, fusing heterogeneous modalities into a single real-time decision framework.</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="tl reveal" data-delay="1">
+            <div class="tl__node" aria-hidden="true"></div>
+            <div class="card card--pad tl__card">
+              <span class="pill">Jan 19&ndash;23, 2026</span>
+              <h4 class="tl__role">Industrial Attachment Program</h4>
+              <p class="tl__org">Neural Semiconductor Ltd. &middot; Dhaka, Bangladesh</p>
+              <ul class="bullets">
+                <li>Intensive program on modern semiconductor design methodologies and IC development workflows.</li>
+                <li>Hands-on exposure to the full <strong>VLSI design flow</strong>: analog IC design, analog &amp; digital VLSI, IC physical design, RTL synthesis and RF circuit design.</li>
+                <li>Semiconductor fabrication processes, front-end and back-end design, and industry-standard IC practices.</li>
+              </ul>
+              <a class="link-arrow js-profile" data-profile="certificate" href="#" rel="noopener">View certificate</a>
+            </div>
+          </li>
+
+          <li class="tl reveal" data-delay="2">
+            <div class="tl__node" aria-hidden="true"></div>
+            <div class="card card--pad tl__card">
+              <span class="pill">May 2025 &ndash; Dec 2025</span>
+              <h4 class="tl__role">Secretary &mdash; Editorial &amp; Publication Department</h4>
+              <p class="tl__org">Robotics Club of BRAC University</p>
+              <ul class="bullets">
+                <li>Managed publications, communications and outreach for the club.</li>
+                <li>Created technical and promotional content for robotics initiatives.</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div>
+        <h3 class="col-h reveal"><span class="col-h__icon" aria-hidden="true">&#9878;</span>Education</h3>
+        <ol class="timeline">
+          <li class="tl reveal">
+            <div class="tl__node" aria-hidden="true"></div>
+            <div class="card card--pad tl__card">
+              <span class="pill">Jan 2022 &ndash; Jan 2026</span>
+              <h4 class="tl__role">BSc in Electrical &amp; Electronic Engineering</h4>
+              <p class="tl__org">BSRM School of Engineering, BRAC University</p>
+              <ul class="specs">
+                <li><span>Major</span><b>Electronics</b></li>
+                <li><span>CGPA</span><b>3.66 / 4.00</b></li>
+                <li><span>Honours</span><b>Dean&rsquo;s List &times;3</b></li>
+              </ul>
+              <div class="gauge" aria-label="CGPA 3.66 out of 4.00">
+                <div class="gauge__track"><i style="--v:91.5%"></i></div>
+              </div>
+            </div>
+          </li>
+
+          <li class="tl reveal" data-delay="1">
+            <div class="tl__node" aria-hidden="true"></div>
+            <div class="card card--pad tl__card">
+              <span class="pill">2020</span>
+              <h4 class="tl__role">Higher Secondary Certificate (HSC)</h4>
+              <p class="tl__org">Ispahani Public School and College &middot; Cumilla Board</p>
+              <ul class="specs"><li><span>GPA</span><b>5.00 / 5.00</b></li></ul>
+              <div class="gauge"><div class="gauge__track"><i style="--v:100%"></i></div></div>
+            </div>
+          </li>
+
+          <li class="tl reveal" data-delay="2">
+            <div class="tl__node" aria-hidden="true"></div>
+            <div class="card card--pad tl__card">
+              <span class="pill">2018</span>
+              <h4 class="tl__role">Secondary School Certificate (SSC)</h4>
+              <p class="tl__org">Ispahani Public School and College &middot; Cumilla Board</p>
+              <ul class="specs"><li><span>GPA</span><b>5.00 / 5.00</b></li></ul>
+              <div class="gauge"><div class="gauge__track"><i style="--v:100%"></i></div></div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROJECTS ===================== -->
+<section class="section" id="projects">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-tag mono">03 &mdash; Build log</span>
+      <h2 class="sec-title">Research &amp; <span class="grad">academic projects</span></h2>
+      <p class="sec-sub">Systems built end to end &mdash; sensors, pipelines, models and deployment.</p>
+    </header>
+
+    <div class="projects">
+      <article class="proj card reveal tilt">
+        <div class="proj__top">
+          <div class="proj__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 12h3l2-5 3 10 2.5-7 2 4H21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="pill pill--live">RSGI funded</span>
+        </div>
+        <h3 class="proj__title">A Multimodal Framework for Attention Monitoring &amp; Stress Detection</h3>
+        <p class="proj__meta mono">Wearable sensors + computer vision &middot; academic setting</p>
+        <ul class="bullets">
+          <li>Biomedical AI research integrating <strong>EEG, PPG and skin-temperature</strong> sensing with computer vision, machine learning and edge computing.</li>
+          <li>Real-time multimodal framework in MATLAB and Python: data fusion across asynchronous sensor streams, feature extraction, classifier training and evaluation.</li>
+          <li>Deployment to <strong>resource-constrained edge hardware</strong> under latency and power budgets.</li>
+        </ul>
+        <div class="tags">
+          <span>EEG</span><span>PPG</span><span>Computer Vision</span><span>Sensor Fusion</span><span>Edge AI</span><span>MATLAB</span><span>Python</span>
+        </div>
+      </article>
+
+      <article class="proj card reveal tilt" data-delay="1">
+        <div class="proj__top">
+          <div class="proj__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 3a4 4 0 0 1 4 4v1a3.5 3.5 0 0 1 0 7H8a3.5 3.5 0 0 1 0-7V7a4 4 0 0 1 4-4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 18.5h6M10.5 21h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <span class="pill">Final year design project</span>
+        </div>
+        <h3 class="proj__title">IoT-Based Air Pollution Monitoring &amp; Adaptive Filtration Control</h3>
+        <p class="proj__meta mono">Distributed sensing &middot; WiFi mesh network</p>
+        <ul class="bullets">
+          <li>IoT air-quality monitoring system with <strong>adaptive, data-driven filtration control</strong>.</li>
+          <li>Distributed sensing architecture over a <strong>WiFi mesh network</strong> with node-level sensor calibration and multi-node telemetry aggregation.</li>
+          <li>Automated <strong>two-stage filtration</strong> driven by analysis of the collected air-quality data.</li>
+        </ul>
+        <div class="tags">
+          <span>IoT</span><span>Gas Sensors</span><span>WiFi Mesh</span><span>Telemetry</span><span>Control Systems</span><span>Embedded</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PUBLICATIONS ===================== -->
+<section class="section section--alt" id="publications">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-tag mono">04 &mdash; Peer reviewed</span>
+      <h2 class="sec-title">Publications <span class="grad">(6 &times; Q1)</span></h2>
+      <p class="sec-sub">Energy Conversion and Management: X &middot; Journal of Energy Storage</p>
+    </header>
+
+    <div class="filters reveal" role="group" aria-label="Filter publications">
+      <button class="filter is-active" data-filter="all">All <b>6</b></button>
+      <button class="filter" data-filter="first">First author <b>1</b></button>
+      <button class="filter" data-filter="second">Second author <b>1</b></button>
+      <button class="filter" data-filter="co">Co-author <b>4</b></button>
+    </div>
+
+    <div class="pubs" id="pubList">
+
+      <article class="pub card reveal" data-role="first">
+        <div class="pub__rail" aria-hidden="true"><span class="pub__num mono">01</span></div>
+        <div class="pub__body">
+          <div class="pub__badges">
+            <span class="badge badge--gold">1st Author</span>
+            <span class="badge">Q1 &middot; Top 7%</span>
+            <span class="badge">2026</span>
+          </div>
+          <h3 class="pub__title">The Next Generation of Energy Storage for Smart and Sustainable Power Grids: A Systematic Review</h3>
+          <p class="pub__authors"><b>Alvi Ibn Amzad Anil</b>, Md Reshad Al Muttaki, Sadia Afrin, Shameem Hasan</p>
+          <p class="pub__venue"><em>Energy Conversion and Management: X</em> &middot; Vol. 30, Art. 101771</p>
+          <p class="pub__focus">PRISMA-guided synthesis of 75 publications from five databases across 30 countries on AI- and IoT-enabled control of distributed energy storage; comparative assessment of machine learning and deep reinforcement learning methods (15&ndash;98% accuracy gains), IoT telemetry architectures and hybrid storage systems, with quantitative techno-economic and simulation-to-deployment gap analysis.</p>
+          <div class="pub__foot">
+            <div class="impact">
+              <span class="impact__label mono">IF 8.78</span>
+              <span class="meter"><i style="--v:87.8%"></i></span>
+            </div>
+            <a class="link-arrow" href="https://doi.org/10.1016/j.ecmx.2026.101771" target="_blank" rel="noopener noreferrer">View DOI</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pub card reveal" data-role="second">
+        <div class="pub__rail" aria-hidden="true"><span class="pub__num mono">02</span></div>
+        <div class="pub__body">
+          <div class="pub__badges">
+            <span class="badge badge--silver">2nd Author</span>
+            <span class="badge">Q1 &middot; Top 7%</span>
+            <span class="badge">2026</span>
+          </div>
+          <h3 class="pub__title">Towards Smarter Grids: A Systematic Review of Wide Area Monitoring Enhancing Stability, Protection, and Promoting Environmental Sustainability</h3>
+          <p class="pub__authors">Md Reshad Al Muttaki, <b>Alvi Ibn Amzad Anil</b>, Sadia Afrin, Shameem Hasan</p>
+          <p class="pub__venue"><em>Energy Conversion and Management: X</em> &middot; Vol. 29, Art. 101424</p>
+          <p class="pub__focus">Evidence synthesis of 40 peer-reviewed studies (2019&ndash;2025) on real-time analytics over geographically distributed synchrophasor (PMU) sensor networks; AI-driven anomaly detection and transient-stability assessment (97.3% accuracy in &lt;40&nbsp;ms), latency- and noise-aware simulation-to-deployment gap analysis, and an outlook on edge and quantum computing for sub-millisecond distributed inference; MATLAB proof-of-concept simulation.</p>
+          <div class="pub__foot">
+            <div class="impact">
+              <span class="impact__label mono">IF 8.78</span>
+              <span class="meter"><i style="--v:87.8%"></i></span>
+            </div>
+            <a class="link-arrow" href="https://doi.org/10.1016/j.ecmx.2025.101424" target="_blank" rel="noopener noreferrer">View DOI</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pub card reveal" data-role="co">
+        <div class="pub__rail" aria-hidden="true"><span class="pub__num mono">03</span></div>
+        <div class="pub__body">
+          <div class="pub__badges">
+            <span class="badge">3rd Author</span>
+            <span class="badge">Q1 &middot; Top 7%</span>
+            <span class="badge">2026</span>
+          </div>
+          <h3 class="pub__title">AI-Powered Cybersecurity for Smart Grid Communication: A Systematic Review of Intrusion Detection and Threat Mitigation Systems</h3>
+          <p class="pub__authors">Sadia Afrin, Md Reshad Al Muttaki, <b>Alvi Ibn Amzad Anil</b>, Shameem Hasan</p>
+          <p class="pub__venue"><em>Energy Conversion and Management: X</em> &middot; Vol. 29, Art. 101416</p>
+          <p class="pub__focus">Systematic review of AI-based intrusion detection across 40 studies; hybrid deep learning (CNN&ndash;GRU, LSTM, autoencoders) exceeding 98% detection accuracy on DDoS and false-data-injection attacks; federated learning for privacy-preserving distributed training, edge&ndash;cloud orchestration and containerized deployment, latency/throughput trade-offs in resource-constrained edge inference, and adversarial machine-learning robustness; MATLAB 8-PMU, 300-cycle testbed.</p>
+          <div class="pub__foot">
+            <div class="impact">
+              <span class="impact__label mono">IF 8.78</span>
+              <span class="meter"><i style="--v:87.8%"></i></span>
+            </div>
+            <a class="link-arrow" href="https://doi.org/10.1016/j.ecmx.2025.101416" target="_blank" rel="noopener noreferrer">View DOI</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pub card reveal" data-role="co">
+        <div class="pub__rail" aria-hidden="true"><span class="pub__num mono">04</span></div>
+        <div class="pub__body">
+          <div class="pub__badges">
+            <span class="badge">3rd Author</span>
+            <span class="badge">Q1 &middot; Top 7%</span>
+            <span class="badge">2026</span>
+          </div>
+          <h3 class="pub__title">State-of-Charge-Aware Charging Opportunity Detection for Electric Vehicles Using Data-Driven Learning and Digital Twin Simulation</h3>
+          <p class="pub__authors">Md Reshad Al Muttaki, Sadia Afrin, <b>Alvi Ibn Amzad Anil</b>, Shameem Hasan</p>
+          <p class="pub__venue"><em>Energy Conversion and Management: X</em> &middot; Vol. 30, Art. 101775</p>
+          <p class="pub__focus">SoC-COD framework combining MILP-based optimal labeling with probabilistic machine learning &mdash; a Gradient Boosting Regressor for counterfactual state-of-charge trajectories (R&sup2; = 0.8297) and an XGBoost classifier for opportunity detection (ROC-AUC = 0.9915) &mdash; validated on the California Audi EV telematics dataset under chronological holdout plus digital-twin simulation; designed for on-vehicle edge inference with federated learning.</p>
+          <div class="pub__foot">
+            <div class="impact">
+              <span class="impact__label mono">IF 8.78</span>
+              <span class="meter"><i style="--v:87.8%"></i></span>
+            </div>
+            <a class="link-arrow" href="https://doi.org/10.1016/j.ecmx.2026.101775" target="_blank" rel="noopener noreferrer">View DOI</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pub card reveal" data-role="co">
+        <div class="pub__rail" aria-hidden="true"><span class="pub__num mono">05</span></div>
+        <div class="pub__body">
+          <div class="pub__badges">
+            <span class="badge">3rd Author</span>
+            <span class="badge badge--top">Q1 &middot; Top 4%</span>
+            <span class="badge">2026</span>
+          </div>
+          <h3 class="pub__title">Demand-Based Anomaly Detection Algorithm in Electric Vehicle Charging Systems Using Machine Learning and Digital Twin Simulation</h3>
+          <p class="pub__authors">Md Reshad Al Muttaki, Sadia Afrin, <b>Alvi Ibn Amzad Anil</b>, Shameem Hasan</p>
+          <p class="pub__venue"><em>Journal of Energy Storage</em> &middot; Vol. 170, Art. 122795</p>
+          <p class="pub__focus">ST-DAD framework &mdash; a stacking ensemble of XGBoost, LightGBM and Random Forest with a linear meta-learner for spatio-temporal demand forecasting, coupled to z-score-normalized residual anomaly scoring; engineered temporal, spatial, port-type and duration features over 148,136 event-level charging sessions with leakage-free scaling and temporal holdout validation; benchmarked against five baselines and a grid-aware digital twin (F1 = 0.7906, ROC-AUC = 0.8147).</p>
+          <div class="pub__foot">
+            <div class="impact">
+              <span class="impact__label mono">IF 9.8</span>
+              <span class="meter"><i style="--v:98%"></i></span>
+            </div>
+            <a class="link-arrow" href="https://doi.org/10.1016/j.est.2026.122795" target="_blank" rel="noopener noreferrer">View DOI</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pub card reveal" data-role="co">
+        <div class="pub__rail" aria-hidden="true"><span class="pub__num mono">06</span></div>
+        <div class="pub__body">
+          <div class="pub__badges">
+            <span class="badge">6th Author</span>
+            <span class="badge">Q1 &middot; Top 7%</span>
+            <span class="badge">2026</span>
+          </div>
+          <h3 class="pub__title">Balancing Cybersecurity, Wireless Charging, and Safety: Digital Twin-Driven Techno-Economic Analysis of Electric Vehicles</h3>
+          <p class="pub__authors">Shameem Hasan, Abu M. Fuad, B.M. Khalid Hasan Drobo, Md Reshad Al Muttaki, Sadia Afrin, <b>Alvi Ibn Amzad Anil</b>, Omar Farrok</p>
+          <p class="pub__venue"><em>Energy Conversion and Management: X</em> &middot; Vol. 31, Art. 102107</p>
+          <p class="pub__focus">Digital twin-driven co-optimization of AI-powered intrusion detection (99.4% accuracy) against techno-economic and environmental objectives across networked vehicle-to-everything (V2X) cyber-physical infrastructure; multi-layer defense architecture analysis and simulation-based security-investment optimization (652.9% ROI at the optimal security level).</p>
+          <div class="pub__foot">
+            <div class="impact">
+              <span class="impact__label mono">IF 8.78</span>
+              <span class="meter"><i style="--v:87.8%"></i></span>
+            </div>
+            <a class="link-arrow" href="https://doi.org/10.1016/j.ecmx.2026.102107" target="_blank" rel="noopener noreferrer">View DOI</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <p class="pubs__empty" id="pubEmpty" hidden>No publications in this category.</p>
+  </div>
+</section>
+
+<!-- ===================== SKILLS ===================== -->
+<section class="section" id="skills">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-tag mono">05 &mdash; Toolkit</span>
+      <h2 class="sec-title">Technical <span class="grad">skills</span></h2>
+      <p class="sec-sub">Ten functional blocks, wired together.</p>
+    </header>
+
+    <div class="skills">
+      <article class="ic reveal tilt">
+        <div class="ic__pins ic__pins--l" aria-hidden="true"></div>
+        <div class="ic__pins ic__pins--r" aria-hidden="true"></div>
+        <div class="ic__inner">
+          <div class="ic__head"><span class="ic__ref mono">U1</span><h3>AI &amp; Machine Learning</h3></div>
+          <div class="tags">
+            <span>Supervised classification</span><span>Regression</span><span>Computer vision</span>
+            <span>Feature engineering</span><span>Model training &amp; validation</span><span>Multimodal data fusion</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="ic reveal tilt" data-delay="1">
+        <div class="ic__pins ic__pins--l" aria-hidden="true"></div>
+        <div class="ic__pins ic__pins--r" aria-hidden="true"></div>
+        <div class="ic__inner">
+          <div class="ic__head"><span class="ic__ref mono">U2</span><h3>Data Science</h3></div>
+          <div class="tags">
+            <span>Data analysis &amp; visualization</span><span>Signal processing</span><span>Time-series analytics</span>
+            <span>Sensor-stream analytics</span><span>Calibration &amp; data quality</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="ic reveal tilt" data-delay="2">
+        <div class="ic__pins ic__pins--l" aria-hidden="true"></div>
+        <div class="ic__pins ic__pins--r" aria-hidden="true"></div>
+        <div class="ic__inner">
+          <div class="ic__head"><span class="ic__ref mono">U3</span><h3>Cloud &amp; Distributed</h3></div>
+          <div class="tags">
+            <span>Edge computing</span><span>On-device inference</span><span>Distributed sensor networks</span>
+            <span>WiFi mesh networking</span><span>IoT telemetry pipelines</span><span>Real-time acquisition</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="ic reveal tilt" data-delay="3">
+        <div class="ic__pins ic__pins--l" aria-hidden="true"></div>
+        <div class="ic__pins ic__pins--r" aria-hidden="true"></div>
+        <div class="ic__inner">
+          <div class="ic__head"><span class="ic__ref mono">U4</span><h3>Programming</h3></div>
+          <div class="tags"><span>Python</span><span>MATLAB</span></div>
+        </div>
+      </article>
+
+      <article class="ic reveal tilt" data-delay="4">
+        <div class="ic__pins ic__pins--l" aria-hidden="true"></div>
+        <div class="ic__pins ic__pins--r" aria-hidden="true"></div>
+        <div class="ic__inner">
+          <div class="ic__head"><span class="ic__ref mono">U5</span><h3>Sensors</h3></div>
+          <div class="tags"><span>EEG</span><span>PPG</span><span>Skin temperature</span><span>Gas sensors</span><span>Sensor calibration</span></div>
+        </div>
+      </article>
+
+      <article class="ic reveal tilt" data-delay="5">
+        <div class="ic__pins ic__pins--l" aria-hidden="true"></div>
+        <div class="ic__pins ic__pins--r" aria-hidden="true"></div>
+        <div class="ic__inner">
+          <div class="ic__head"><span class="ic__ref mono">U6</span><h3>Electronics</h3></div>
+          <div class="tags"><span>Analog electronics</span><span>Digital electronics</span><span>Embedded systems</span></div>
+        </div>
+      </article>
+
+      <article class="ic reveal tilt" data-delay="6">
+        <div class="ic__pins ic__pins--l" aria-hidden="true"></div>
+        <div class="ic__pins ic__pins--r" aria-hidden="true"></div>
+        <div class="ic__inner">
+          <div class="ic__head"><span class="ic__ref mono">U7</span><h3>Design Tools</h3></div>
+          <div class="tags"><span>VLSI design</span><span>Embedded system development</span><span>Proteus</span><span>PSpice</span></div>
+        </div>
+      </article>
+
+      <article class="ic reveal tilt" data-delay="7">
+        <div class="ic__pins ic__pins--l" aria-hidden="true"></div>
+        <div class="ic__pins ic__pins--r" aria-hidden="true"></div>
+        <div class="ic__inner">
+          <div class="ic__head"><span class="ic__ref mono">U8</span><h3>Research</h3></div>
+          <div class="tags"><span>Systematic review (PRISMA)</span><span>Literature review</span><span>Academic writing</span><span>Technical documentation</span></div>
+        </div>
+      </article>
+
+      <article class="ic reveal tilt" data-delay="8">
+        <div class="ic__pins ic__pins--l" aria-hidden="true"></div>
+        <div class="ic__pins ic__pins--r" aria-hidden="true"></div>
+        <div class="ic__inner">
+          <div class="ic__head"><span class="ic__ref mono">U9</span><h3>Engineering</h3></div>
+          <div class="tags"><span>IoT systems</span><span>Smart grid technologies</span><span>Energy systems</span></div>
+        </div>
+      </article>
+
+      <article class="ic reveal tilt" data-delay="9">
+        <div class="ic__pins ic__pins--l" aria-hidden="true"></div>
+        <div class="ic__pins ic__pins--r" aria-hidden="true"></div>
+        <div class="ic__inner">
+          <div class="ic__head"><span class="ic__ref mono">U10</span><h3>Management</h3></div>
+          <div class="tags"><span>Project management</span><span>Research coordination</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BEYOND / EXTRACURRICULAR ===================== -->
+<section class="section section--alt" id="beyond">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-tag mono">06 &mdash; Off the bench</span>
+      <h2 class="sec-title">Leadership &amp; <span class="grad">creative work</span></h2>
+    </header>
+
+    <div class="beyond">
+      <article class="card card--pad reveal">
+        <div class="beyond__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 6h16M4 12h10M4 18h13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="card__h">Editorial &amp; Publication Secretary</h3>
+        <p class="muted">Robotics Club of BRAC University &middot; May&ndash;Dec 2025</p>
+        <p>Managed publications, communications and outreach, creating technical and promotional content for robotics initiatives.</p>
+      </article>
+
+      <article class="card card--pad reveal" data-delay="1">
+        <div class="beyond__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 21s-7-4.4-7-9.5A3.5 3.5 0 0 1 12 8a3.5 3.5 0 0 1 7 3.5C19 16.6 12 21 12 21Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="card__h">Slam Poetry</h3>
+        <p class="muted">Competitive spoken word &amp; creative writing</p>
+        <p>Participated in competitive spoken-word events and authored original poems and anonymous literary works.</p>
+      </article>
+
+      <article class="card card--pad reveal" data-delay="2">
+        <div class="beyond__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M7 7h10v10H7z" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M10 4v3M14 4v3M10 17v3M14 17v3M4 10h3M4 14h3M17 10h3M17 14h3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="card__h">Semiconductor Training</h3>
+        <p class="muted">Neural Semiconductor &middot; Jan 2026</p>
+        <p>Full VLSI design flow: analog IC design, RTL synthesis, IC physical design and RF circuits, plus fabrication process fundamentals.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-tag mono">07 &mdash; Connect</span>
+      <h2 class="sec-title">Let&rsquo;s build something <span class="grad">measurable</span></h2>
+      <p class="sec-sub">Open to research collaborations, PhD opportunities and R&amp;D roles.</p>
+    </header>
+
+    <div class="contact">
+      <div class="contact__cards">
+        <a class="ccard reveal" href="mailto:alviamzad02@gmail.com">
+          <span class="ccard__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3.7 7 8.3 6 8.3-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </span>
+          <span class="ccard__meta"><b>Email</b><i>alviamzad02@gmail.com</i></span>
+        </a>
+
+        <a class="ccard reveal" data-delay="1" href="tel:+8801770061198">
+          <span class="ccard__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6 6L16.5 13l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 3.5 5.7a2 2 0 0 1 2-2.2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="ccard__meta"><b>Phone</b><i>+880 1770 061198</i></span>
+        </a>
+
+        <div class="ccard reveal" data-delay="2">
+          <span class="ccard__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          </span>
+          <span class="ccard__meta"><b>Location</b><i>Merul Badda, Dhaka&ndash;1212</i></span>
+        </div>
+
+        <div class="socials reveal" data-delay="3">
+          <a class="social js-profile" data-profile="linkedin" href="#" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.6c0-1.34-.03-3.07-1.95-3.07-1.95 0-2.25 1.46-2.25 2.97V21H9z"/></svg>
+            <span>LinkedIn</span>
+          </a>
+          <a class="social js-profile" data-profile="researchgate" href="#" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-2.4 6.1h2.5c1.6 0 2.6.9 2.6 2.3 0 1.1-.6 1.9-1.6 2.2l2 3.3h-1.7l-1.8-3h-.7v3H9.6zm1.3 1.2v2.4h1c.9 0 1.4-.4 1.4-1.2s-.5-1.2-1.4-1.2z"/></svg>
+            <span>ResearchGate</span>
+          </a>
+          <a class="social js-profile" data-profile="scholar" href="#" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 3 1.5 8.5 12 14l8.2-4.3v5.1h1.8V8.5zM5.6 12.6v3.1c0 2 2.9 3.6 6.4 3.6s6.4-1.6 6.4-3.6v-3.1L12 16z"/></svg>
+            <span>Google Scholar</span>
+          </a>
+          <a class="social js-profile" data-profile="github" href="#" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+            <span>GitHub</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="refs reveal" data-delay="1">
+        <h3 class="card__h">References</h3>
+        <div class="refs__grid">
+          <div class="ref card card--pad">
+            <b>Dr. Mirza Rasheduzzaman</b>
+            <span class="muted">Associate Professor, Dept. of EEE</span>
+            <span class="muted">BRAC University</span>
+            <a href="mailto:mirza.rasheduzzaman@bracu.ac.bd">mirza.rasheduzzaman@bracu.ac.bd</a>
+          </div>
+          <div class="ref card card--pad">
+            <b>Shameem Hasan</b>
+            <span class="muted">Senior Lecturer, Dept. of EEE</span>
+            <span class="muted">BRAC University</span>
+            <a href="mailto:shameem.hasan@bracu.ac.bd">shameem.hasan@bracu.ac.bd</a>
+          </div>
+          <div class="ref card card--pad">
+            <b>SK Tahmed Salim Rafid</b>
+            <span class="muted">Lecturer, Dept. of EEE</span>
+            <span class="muted">BRAC University</span>
+            <a href="mailto:rafid.salim@bracu.ac.bd">rafid.salim@bracu.ac.bd</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <p class="foot__name">Alvi Ibn Amzad Anil</p>
+    <p class="foot__note mono">&copy; <span id="year">2026</span> &middot; Built with HTML, CSS &amp; JavaScript &middot; Hosted on GitHub Pages</p>
+  </div>
+  <div class="foot__trace" aria-hidden="true"></div>
+</footer>
+
+<button class="totop" id="toTop" aria-label="Back to top" hidden>
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5m0 0-6 6m6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
