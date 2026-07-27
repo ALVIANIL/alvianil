@@ -10,12 +10,19 @@
         Leave a value as "" and the button stays inactive.
      --------------------------------------------------------- */
   var PROFILES = {
-    linkedin:     '',   // e.g. 'https://www.linkedin.com/in/your-handle'
-    researchgate: '',   // e.g. 'https://www.researchgate.net/profile/Your-Name'
-    scholar:      '',   // e.g. 'https://scholar.google.com/citations?user=XXXXXXX'
-    github:       '',   // e.g. 'https://github.com/your-username'
-    certificate:  ''    // e.g. 'https://drive.google.com/file/d/XXXX/view'
+    linkedin:     'https://www.linkedin.com/in/alvi-ibn-amzad-anil',
+    researchgate: 'https://www.researchgate.net/profile/Alvi-Anil',
+    scholar:      'https://scholar.google.com/citations?user=wTuQGOcAAAAJ',
+    github:       'https://github.com/ALVIANIL',
+    certificate:  ''    // see the note below
   };
+
+  /*  The certificate link is intentionally blank. The URL in the CV was a temporary
+      LinkedIn CDN link (media.licdn.com/...?e=1784970000) that expired on 25 Jul 2026,
+      so it would fail for visitors. To restore it permanently, drop the certificate
+      file into assets/files/ and set:
+          certificate: 'assets/files/neural-semiconductor-certificate.pdf'
+      Any value left as '' keeps the link visible but inactive.                       */
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarsePointer = window.matchMedia('(pointer: coarse)').matches;
