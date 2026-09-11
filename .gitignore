@@ -1,0 +1,10 @@
+manuscript/src/*.aux
+manuscript/src/*.log
+manuscript/src/*.out
+manuscript/src/*.toc
+manuscript/src/c1.log
+manuscript/src/c2.log
+manuscript/src/p*.png
+manuscript/src/main_docx.tex
+manuscript/src/main.pdf
+manuscript/data/**/__pycache__/

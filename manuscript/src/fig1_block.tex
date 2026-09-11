@@ -1,0 +1,78 @@
+\begin{tikzpicture}[node distance=3.2mm]
+
+% ---- Layer 1: acquisition
+\node[sens] (ecg)  {ECG / HRV\\chest, patch};
+\node[sens,right=of ecg] (ppg) {PPG / BVP\\wrist, in-ear};
+\node[sens,right=of ppg] (eda) {EDA \& skin\\temperature};
+\node[sens,right=of eda] (eeg) {EEG\\scalp, behind-ear};
+\node[sens,right=of eeg] (imu) {IMU\\accel., gyro.};
+\node[sens,right=14mm of imu] (cam) {RGB camera\\face, gaze, pose};
+
+
+% ---- Layer 2: conditioning
+\node[proc,below=9mm of ppg.south,xshift=-6mm,text width=44mm] (cond)
+     {\textbf{Signal conditioning}\\band-pass filtering, motion-artefact
+      rejection, resampling, signal-quality gating};
+\node[proc,below=9mm of eeg.south,xshift=14mm,text width=44mm] (vis)
+     {\textbf{Vision front end}\\face detection, landmarks, action units,
+      gaze, rPPG extraction};
+
+% ---- Layer 3: representation
+\node[proc,below=7mm of cond,text width=44mm] (feat)
+     {\textbf{Representation}\\HRV indices, EDA phasic/tonic, spectral
+      and time--frequency maps, learned embeddings};
+\node[proc,below=7mm of vis,text width=44mm] (vfeat)
+     {\textbf{Representation}\\AU intensities, blink and fixation
+      statistics, rPPG-derived HR};
+
+% ---- Layer 4: fusion
+\node[fuse,below=8mm of $(feat.south)!0.5!(vfeat.south)$,text width=96mm] (fus)
+     {\textbf{Fusion stage}\quad
+      feature level (early) \quad$\vert$\quad decision level (late)
+      \quad$\vert$\quad hybrid and context gated};
+
+% ---- Layer 5: inference
+\node[blk,below=7mm of fus,text width=96mm] (mdl)
+     {\textbf{Inference}\quad classical ML (RF, XGBoost, SVM)\quad$\vert$\quad
+      CNN, LSTM, hybrid CNN--LSTM\quad$\vert$\quad transformer and
+      attention models};
+
+% ---- Layer 6: evaluation gate (the contribution of this review)
+\node[outp,below=7mm of mdl,text width=96mm,fill=red!8] (ev)
+     {\textbf{Evaluation protocol}\quad personalized $\vert$ subject dependent
+      $\vert$ leave-one-subject-out $\vert$ cross-dataset\\
+      \textit{determines what the reported accuracy actually means}};
+
+% ---- Layer 7: outputs
+\node[outp,below=8mm of ev.south,xshift=-33mm,text width=28mm] (o1)
+     {Stress state\\and level};
+\node[outp,right=4mm of o1,text width=28mm] (o2) {Attention, drowsiness,\\cognitive load};
+\node[outp,right=4mm of o2,text width=28mm] (o3) {Closed-loop feedback\\and actuation};
+
+\begin{scope}[on background layer]
+  \node[fit=(ecg)(imu),draw=green!45!black,dashed,rounded corners,
+        inner sep=2.6mm,fill=green!3] (w) {};
+  \node[fit=(cam),draw=purple!55!black,dashed,rounded corners,
+        inner sep=2.6mm,fill=purple!3] (v) {};
+\end{scope}
+\node[above=0.6mm of w.north,font=\scriptsize\itshape,text=green!35!black]
+     {Wearable physiological and inertial channels (contact)};
+\node[above=0.6mm of v.north,font=\scriptsize\itshape,text=purple!45!black]
+     {Camera (contactless)};
+
+\draw[ar] (w.south) -- (cond.north);
+\draw[ar] (v.south) -- (vis.north);
+\draw[ar] (cond) -- (feat);
+\draw[ar] (vis) -- (vfeat);
+\draw[ar] (feat.south) -- ([xshift=-24mm]fus.north);
+\draw[ar] (vfeat.south) -- ([xshift=24mm]fus.north);
+\draw[ar] (fus) -- (mdl);
+\draw[ar] (mdl) -- (ev);
+\draw[ar] (ev.south) -- ++(0,-3mm) -| (o1.north);
+\draw[ar] (ev.south) -- ++(0,-3mm) -| (o2.north);
+\draw[ar] (ev.south) -- ++(0,-3mm) -| (o3.north);
+\draw[ar,dashed,draw=red!65!black] (o3.east) -- ++(12mm,0)
+      node[pos=0.82,below=1mm,font=\scriptsize\itshape,text=red!60!black,
+           align=center] {closed-loop\\actuation}
+      |- ([yshift=-1.2mm]w.east);
+\end{tikzpicture}

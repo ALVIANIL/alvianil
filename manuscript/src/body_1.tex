@@ -1,0 +1,157 @@
+\begin{center}
+{\large\bfseries Evaluation Protocol Outweighs Multimodal Fusion in Wearable and\\[2pt]
+Camera-Based Stress and Attention Monitoring:\\[2pt]
+A Systematic Review with Within-Study Meta-Analysis}\\[10pt]
+\end{center}
+
+\section*{Abstract}
+\textbf{Background:} Multimodal fusion of wearable physiological sensing and camera-based
+sensing is widely presented as the route to deployable stress and attention monitoring.
+The supporting evidence, however, is assembled almost entirely from between-study
+comparisons in which fusion is confounded with the evaluation protocol, the cohort, the
+dataset and the task definition.
+
+\textbf{Methods:} We systematically screened 116 unique records published between 2022 and
+2026 and retained 60 studies reporting stress, attention, drowsiness or cognitive-load
+outcomes from wearable or camera-based sensing. Every included record was independently
+corroborated against the publisher or indexed record before use, and no value that could
+not be corroborated was carried into the synthesis. Rather than pooling headline accuracies
+across studies, we extracted only \emph{within-study} contrasts, in which a single research
+team holds the cohort, the pipeline and the evaluation protocol fixed and varies one factor.
+This yields two estimands: the fusion gain, obtained by adding modalities under a matched
+protocol, and the evaluation-induced gap, obtained by changing personalization, deployment
+setting, dataset or task granularity.
+
+\textbf{Results:} Headline outcomes were corroborable for 28 of 60 studies (46.7\%); the
+validation protocol was recoverable for only 8 studies (13.3\%) and a variance or confidence
+interval for 3 (5.0\%). Across 4 protocol-matched contrasts, the median within-study fusion
+gain was $+4.67$ percentage points (pp, range $+1.00$ to $+14.30$). Across 10 within-study
+evaluation contrasts, the median gap was $9.14$ pp (range $1.26$ to $48.66$), approximately
+twice the median fusion gain. Personalization alone accounted for a median gap of $38.03$ pp,
+including a fall from $95.06\%$ to $67.65\%$ accuracy and from $91.71$ to $43.05$ F1 within a
+single study, and moving from the laboratory to free living cost $13.00$ pp of F1. On WESAD,
+9 of 10 corroborated records exceeded $86\%$ and 7 of 9 exceeded $92\%$ irrespective of
+architecture, and leave-one-subject-out results (median $94.59\%$) were indistinguishable
+from results whose protocol was never stated (median $95.06\%$). Reported accuracy was
+uncorrelated with cohort size ($r=+0.15$, $k=15$).
+
+\textbf{Conclusions:} Under matched conditions the benefit of multimodal fusion is real but
+modest, and it is smaller than the performance swing produced by evaluation choices that are
+frequently left unreported. WESAD has saturated to the point where it no longer discriminates
+between architectures. We conclude with a reporting specification for translational work and
+argue that subject-independent, cross-dataset and free-living evaluation, not further
+architectural elaboration, is the binding constraint on deployable systems.
+
+\textbf{Keywords:} stress detection; attention monitoring; multimodal fusion; wearable
+biosensors; evaluation protocol; generalization.
+
+\section{Introduction}
+
+\subsection{Background and Motivation}
+Stress and attention are the two physiological and cognitive states that most directly
+govern human performance, safety and long-term health. Acute stress mobilizes the autonomic
+nervous system, and sustained or repeated activation degrades sustained attention, working
+memory and decision quality. In settings where a lapse is consequential, such as driving,
+clinical care, aviation and industrial operation, continuous and objective measurement of
+these states has clear practical value. That motivation has driven work in occupational
+health \cite{r4,r5,r61}, clinical monitoring \cite{r3,r28,r115}, road safety \cite{r7,r8,r45},
+education \cite{r30,r74,r99} and free-living daily life \cite{r10,r13,r35}.
+
+The engineering question, however, has shifted. Enough is now known about which signals carry
+stress-related information that the open problem is no longer detection in principle but
+detection that survives contact with a new person, a new day and a new environment. This
+review is organized around that shift.
+
+\subsection{Sensing Modalities}
+Wearable devices sample autonomic activity through electrocardiography (ECG) and the
+heart-rate variability (HRV) derived from it, photoplethysmography (PPG) and blood volume
+pulse, electrodermal activity (EDA), skin temperature, respiration and
+electroencephalography (EEG). Research-grade wristbands \cite{r12,r19}, consumer smartwatches
+\cite{r13,r25}, in-ear devices \cite{r43}, behind-the-ear EEG \cite{r31} and custom sensor
+packages \cite{r14,r108} now cover most of the practical design space. Inertial measurement
+units are almost always co-located, supplying the motion context needed to separate
+autonomic arousal from physical exertion \cite{r19,r79}.
+
+Camera-based sensing supplies a complementary, contactless channel. Facial action unit
+analysis, gaze and blink dynamics and head pose expose behavioral and affective information
+that physiology does not carry, while remote PPG recovers cardiac information from subtle
+color changes in ordinary RGB video and so overlaps directly with the wearable channel
+\cite{r16}. Systems that combine camera streams with wearable PPG and EDA in a single
+pipeline are now reported in workplace settings \cite{r17}. Figure~\ref{fig:block} shows the
+canonical processing chain shared by the systems reviewed here, from acquisition through
+conditioning, representation, fusion and inference to the decision or closed-loop actuation
+stage. The element we place on an equal footing with the others, and which motivates this
+review, is the evaluation protocol: it is not a reporting detail appended to a system but the
+stage that determines what any reported accuracy actually means.
+
+\begin{figure}[H]
+\centering
+\resizebox{0.97\textwidth}{!}{\input{fig1_block.tex}}
+\caption{Processing chain shared by wearable and camera-based stress and attention
+monitoring systems. Contact channels and the contactless camera channel are conditioned and
+represented separately, combined at a feature, decision or hybrid fusion stage, and passed to
+an inference model. The evaluation protocol stage is drawn explicitly because the same model
+and the same data yield materially different reported performance depending on whether
+evaluation is personalized, subject dependent, subject independent or cross-dataset. The
+dashed return path denotes closed-loop actuation.}
+\label{fig:block}
+\end{figure}
+
+\subsection{Limitations of Unimodal Approaches and the Case for Integration}
+Each modality fails in characteristic ways. Wearable signals are corrupted by motion
+artefacts and variable skin contact, and physiological arousal caused by exertion is not
+separable from arousal caused by stress without contextual information \cite{r19,r79}.
+Camera-based systems depend on illumination, an unoccluded face and a favorable viewing
+angle, and observe only the externally expressed surface of an internal state.
+
+The standard argument is that these failure modes are complementary, so fusing the channels
+should be more than additive. The argument is plausible, and several studies do report gains.
+What is rarely examined is the magnitude of that gain once it is measured properly. Almost
+all quantitative support for fusion in this literature is assembled by comparing the accuracy
+reported by a multimodal study against the accuracy reported by a different unimodal study.
+Those two numbers differ in cohort, stressor protocol, label source, class definition,
+preprocessing and, critically, validation scheme. A between-study difference therefore
+estimates the sum of all of these, not the effect of fusion. This review is built on the
+observation that a much cleaner estimate is available and has not been systematically
+exploited: within a single study, a single team frequently reports a unimodal baseline and a
+fused model under an identical protocol, and separately reports the same model under two
+different evaluation regimes. These within-study contrasts identify the fusion effect and the
+evaluation effect on the same scale, and permit them to be compared directly.
+
+\subsection{Research Questions and Objectives}
+Prior reviews of wearable stress monitoring have documented that generalization is weak
+\cite{r118}, and prior reviews of affective computing survey physiological and vision-based
+modalities largely in parallel. Neither has quantified how the benefit attributed to fusion
+compares with the performance swing produced by evaluation design. This review addresses that
+gap through three questions:
+
+\textbf{RQ1:} When fusion gain is estimated only from within-study, protocol-matched
+comparisons, how large is it? This matters because every deployment decision that favours a
+second sensor over a single one is justified by an assumed magnitude, and that magnitude has
+never been isolated from its confounds.
+
+\textbf{RQ2:} How does that fusion gain compare with the within-study performance difference
+attributable to evaluation choices, namely personalization, deployment setting, dataset and
+task granularity? This matters because if the second effect dominates, the field's
+optimization target is misplaced.
+
+\textbf{RQ3:} Has the dominant benchmark saturated, and how completely is the evidence base
+reported and independently verifiable? This matters because a saturated benchmark combined
+with unreported protocols makes architectural progress unfalsifiable.
+
+The review pursues five objectives:
+\begin{itemize}[leftmargin=1.25em,itemsep=1pt,topsep=2pt]
+\item \textbf{O1:} Assemble a topically screened corpus of 2022 to 2026 studies in which every
+      bibliographic record is independently corroborated.
+\item \textbf{O2:} Carry only corroborated outcome values into the synthesis and report the
+      corroboration and reporting-recovery rates as evidence in their own right.
+\item \textbf{O3:} Estimate the within-study fusion gain under matched protocols.
+\item \textbf{O4:} Estimate the within-study evaluation-induced gap and compare the two on a
+      common scale.
+\item \textbf{O5:} Test benchmark saturation and derive a reporting specification for
+      translational work.
+\end{itemize}
+
+Section~2 reviews unimodal and integrated work and the limits of prior surveys. Section~3
+gives the review and verification methodology. Section~4 reports results against the
+objectives. Section~5 synthesizes the trends. Sections~6 and~7 discuss and conclude.

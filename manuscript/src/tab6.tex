@@ -1,0 +1,19 @@
+\begin{tabular}{L{3.1cm} L{4.35cm} L{2.35cm} C{1.2cm} C{1.4cm} C{1.4cm} C{1.3cm}}
+\toprule
+\textbf{Study} & \textbf{Contrast} & \textbf{Source of the difference} & \textbf{Metric} & \textbf{Favourable} & \textbf{Realistic} & \textbf{Gap (pp)} \\
+\midrule
+Li \& Washington \cite{r33} & Personalized vs subject-independent & Personalization & F1 & 91.71 & 43.05 & 48.66 \\
+Li \& Washington \cite{r33} & Personalized vs subject-independent & Personalization & Accuracy & 95.06 & 67.65 & 27.41 \\
+Laiti et al. \cite{r49} & WESAD vs Wellby real-world cohort & Dataset transfer & AUROC & 91.58 & 77.02 & 14.56 \\
+Toshnazarov et al. \cite{r13} & Laboratory vs free-living & Deployment setting & F1 & 84.00 & 71.00 & 13.00 \\
+Xu et al. \cite{r16} & Stress state vs stress level & Task granularity & Accuracy & 94.33 & 83.83 & 10.50 \\
+Rashid et al. \cite{r58} & Binary vs three-class & Task granularity & Accuracy & 94.12 & 86.34 & 7.78 \\
+Ali et al. \cite{r55} & WESAD vs in-house cohort & Dataset transfer & Accuracy & 96.94 & 92.94 & 4.00 \\
+Khayyat et al. \cite{r61} & WESAD vs SWELL-KW & Dataset transfer & Accuracy & 96.76 & 92.76 & 4.00 \\
+Khayyat et al. \cite{r61} & Binary vs multiclass (WESAD) & Task granularity & Accuracy & 99.82 & 96.76 & 3.06 \\
+Shikha et al. \cite{r53} & Two-level vs three-level stress & Task granularity & Accuracy & 98.28 & 97.02 & 1.26 \\
+\midrule
+\multicolumn{6}{l}{\textbf{Median evaluation-induced gap} (range 1.26 to 48.66, $k=10$)} & \textbf{9.14} \\
+\multicolumn{6}{l}{Median within-study fusion gain for comparison ($k=4$)} & 4.67 \\
+\bottomrule
+\end{tabular}

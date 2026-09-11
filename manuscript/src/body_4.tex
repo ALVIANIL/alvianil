@@ -1,0 +1,156 @@
+\section{Key Trends and Patterns Across Results}
+
+\subsection{The Field Is Optimizing the Smaller of Two Effects}
+The central pattern is a mismatch between where effort is spent and where performance is
+determined. Architectural work is abundant: the corpus contains transformers, capsule
+networks, autoencoders, generative augmentation and federated schemes, and each reports an
+improvement over its chosen baseline. Yet on the one dataset where these architectures can be
+compared, they occupy a two-point band that a $k$-nearest-neighbour classifier also occupies
+\cite{r14,r50}. Meanwhile the factors that move performance by an order of magnitude more,
+whether the model is personalized, whether evaluation is subject independent, whether data
+were collected in the field, are treated as reporting details and are usually not reported at
+all. A median fusion gain of $4.67$ pp against a median evaluation gap of $9.14$ pp, and
+against a personalization gap of $38.03$ pp, quantifies that mismatch.
+
+\subsection{Fusion Is Real, Bounded and Baseline-Dependent}
+The four protocol-matched contrasts are unanimously positive, so the case for multimodal
+sensing is not overturned. It is bounded. Fusion buys most where the unimodal baseline is
+weak and the added channel is physiologically distinct, as in EEG supplemented by GSR at
+$+14.30$ pp \cite{r75}, and very little where the baseline is already strong, as in GSR
+supplemented by EEG at $+1.00$ pp of AUROC \cite{r37}. Adding a camera channel to a
+physiological wristband returned $+3.23$ pp in the one corroborated office deployment
+\cite{r26}. For system designers the operational reading is that a second sensor must be
+justified against the specific unimodal baseline it will actually replace, together with its
+cost in power, cost, form factor and failure modes, and not against a generic claim that
+fusion improves performance.
+
+\subsection{Personalization Is the Dominant Lever, and the Main Threat to Validity}
+Personalization accounts for the largest effect in the corpus, and simultaneously for the
+most serious threat to the interpretability of the literature. Because subject-dependent
+splits allow the same participant to appear in training and test, they can be reported
+without any deliberate misrepresentation while producing figures that a subject-independent
+evaluation would not support. The one study in the corpus that reports both conditions on
+identical data shows accuracy falling from $95.06\%$ to $67.65\%$ and F1 from $91.71$ to
+$43.05$ \cite{r33}. Since only 8 of 60 studies state their protocol recoverably, the scale of
+this effect across the wider literature cannot currently be estimated, which is itself the
+finding.
+
+\subsection{Laboratory Performance Does Not Forecast Field Performance}
+Two independent within-study contrasts show the same direction and a similar magnitude:
+$13.00$ pp of F1 lost between laboratory and free-living conditions \cite{r13}, and
+$14.56$ pp of AUROC lost between WESAD and a real-world student cohort \cite{r49}. Transfer
+between two curated benchmarks, by contrast, cost only $4.00$ pp \cite{r55,r61}. The gap
+between these two figures is the crux: a study that demonstrates cross-dataset transfer
+between laboratory corpora has not demonstrated the property that deployment requires. The
+structure of the corpus makes this consequential, since 31 of 60 studies are laboratory or
+benchmark-only and just 9 involve free-living deployment.
+
+\subsection{Benchmark Saturation Has Made Architectural Claims Unfalsifiable}
+When a benchmark compresses a decade of architectural development into a two-point band, it
+cannot adjudicate between methods, and improvements reported on it are no longer informative
+about which method is better. WESAD has reached that state for subject-dependent and LOSO
+evaluation. It has not reached it for subject-independent generalization, where the single
+available record sits at $67.65\%$ \cite{r33}. The productive response is therefore not to
+abandon WESAD but to change the protocol reported on it: subject-independent generalization
+on WESAD remains a discriminating and unsolved task.
+
+\subsection{Reporting Practice Is the Rate-Limiting Step}
+The reporting audit reframes every preceding trend. A validation protocol recoverable for
+$13.3\%$ of studies and a variance estimate for $5.0\%$ means that most reported accuracies
+in this area cannot be placed on a common scale, cannot be meta-analyzed defensibly, and
+cannot be used to specify a system. This is why the present review restricts itself to
+within-study contrasts and to 28 corroborated studies rather than pooling 60 headline
+numbers: the pooled figure would be larger, more impressive and not interpretable.
+
+\section{Discussion}
+
+\subsection{Summary of Findings}
+This review set out to establish whether the performance benefit attributed to multimodal
+fusion in wearable and camera-based stress and attention monitoring survives a
+confound-controlled estimate, and how it compares with the influence of evaluation design.
+Restricting the synthesis to within-study contrasts and to independently corroborated values
+yields three findings.
+
+First, fusion helps, by a median of $4.67$ pp across four protocol-matched contrasts, with
+the gain concentrated where the unimodal baseline is weak. Second, evaluation choices move
+reported performance by a median of $9.14$ pp, roughly twice as much, and personalization
+alone by $38.03$ pp, up to $10.4$ times the median fusion gain. Third, the benchmark on which
+most architectural claims rest has saturated for the protocols commonly used on it, while
+remaining unsolved for the subject-independent protocol that deployment requires, and the
+protocol actually used is unrecoverable for the large majority of studies.
+
+Taken together these support a single conclusion with direct implications for BSPC's
+translational remit: the binding constraint on deployable stress and attention monitoring is
+not the sensing configuration or the network architecture but the evaluation regime under
+which systems are developed and reported. A system optimized against a subject-dependent
+score on a saturated benchmark is being optimized against a target that does not predict
+field behaviour.
+
+Three concrete recommendations follow. \textbf{Report subject-independent performance as the
+primary result:} personalized and subject-dependent figures may be reported alongside it, but
+labeled as such, since the difference is worth up to $27.41$ pp of accuracy and $48.66$ pp
+of F1 \cite{r33}. \textbf{Treat benchmark-to-benchmark transfer as insufficient evidence of
+generalization:} it cost $4.00$ pp in this corpus while benchmark-to-field transfer cost
+$14.56$ pp \cite{r49,r55,r61}. \textbf{Justify each additional sensor against the specific
+unimodal baseline it displaces,} reporting the ablation under a matched protocol, because the
+fusion gain is a function of that baseline and ranged from $+1.00$ to $+14.30$ pp here.
+For closed-loop and therapeutic systems \cite{r38,r108}, where a false positive triggers an
+intervention rather than a notification, these requirements are not methodological
+preferences but safety prerequisites.
+
+\subsection{Limitations}
+Four limitations bound these conclusions and should be weighed against them.
+
+\textbf{Small number of within-study contrasts:} The design that gives this review its
+internal validity also restricts it: only 4 fusion contrasts and 10 evaluation contrasts met
+the matched-protocol requirement. Medians over $k=4$ and $k=10$ are unstable, and the
+comparison of the two medians is a comparison of central tendencies in small samples, not a
+hypothesis test. We therefore report full ranges throughout, avoid pooled effect-size
+estimates and significance testing, and frame the central claim as a difference in order of
+magnitude rather than a precise ratio. The personalization estimate in particular rests on
+one study reporting two metrics \cite{r33}, and would be materially strengthened or weakened
+by two or three further studies reporting both conditions.
+
+\textbf{Corroboration was limited by access, not only by reporting:} A headline outcome was
+corroborable for 46.7\% of included studies, and the recovery rates in
+Table~\ref{tab:t3} reflect what is obtainable from the openly retrievable record. Studies
+behind subscription access may report their protocol and variance fully in the full text.
+The rates are therefore a lower bound on the literature's transparency and an accurate
+description of what a reader without institutional access can verify. The direction of any
+resulting bias is unclear, since there is no reason to expect studies with recoverable
+outcomes to differ systematically in performance from those without.
+
+\textbf{Corpus construction:} The corpus was assembled from a pre-specified set of 117 records
+rather than from fresh database queries executed for this review, then screened and verified
+against strict criteria. This procedure is fully documented and reproducible from
+Table~\ref{tab:t1} and Figure~\ref{fig:prisma}, but it is not equivalent to an exhaustive
+database search, and studies absent from the source corpus are absent here. The strict
+outcome criterion, which excluded 41 records, also narrows coverage relative to reviews that
+admit any wearable-sensing application; that narrowing is deliberate but it does reduce
+comparability with those reviews.
+
+\textbf{Heterogeneity of metrics and tasks:} Contrasts span accuracy, F1 and AUROC, and
+binary through four-class tasks. Differences are reported in percentage points of the
+original metric and are never pooled across metrics, but a percentage point of F1 and a
+percentage point of AUROC are not interchangeable quantities, and the reader should treat
+the aggregate medians as summaries of a heterogeneous set rather than as estimates of a
+single underlying parameter.
+
+\section{Conclusion}
+Multimodal fusion of wearable and camera-based sensing improves stress and attention
+detection, but by less than is generally assumed once cohort, pipeline and validation
+protocol are held fixed: a median of $4.67$ percentage points across the protocol-matched
+contrasts available in the 2022 to 2026 literature. The same literature shows that evaluation
+choices move reported performance roughly twice as far, with personalization alone worth a
+median of $38.03$ percentage points and laboratory-to-field transfer costing $13.00$
+percentage points of F1. On the field's reference benchmark, classical and transformer models
+are separated by under two percentage points, while the validation protocol that produced any
+given number is recoverable for only 13.3\% of studies.
+
+The practical consequence is that the next increment of deployable performance is unlikely to
+come from another architecture or another sensor. It will come from evaluating honestly:
+reporting subject-independent performance as the primary result, validating in the field
+rather than only across curated benchmarks, sizing sensor complements against the actual
+unimodal baseline, and publishing protocol and variance alongside every point estimate.
+Subject-independent generalization on existing benchmarks is unsolved and discriminating, and
+is the appropriate target for the next phase of work in this area.

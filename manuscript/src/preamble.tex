@@ -1,0 +1,54 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=0.7in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,calc,fit,backgrounds}
+
+\captionsetup{font=small,labelfont=bf,labelsep=colon,justification=justified,
+              singlelinecheck=false,skip=5pt}
+\captionsetup[table]{position=above}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.14}
+\setlength{\tabcolsep}{4pt}
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\itshape}{\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{12pt}{5pt}
+\titlespacing*{\subsection}{0pt}{9pt}{3pt}
+\titlespacing*{\subsubsection}{0pt}{7pt}{2pt}
+
+\definecolor{hdr}{HTML}{E8EDF3}
+\definecolor{acc}{HTML}{2B6CB0}
+\definecolor{wrn}{HTML}{C53030}
+\definecolor{soft}{HTML}{F5F7FA}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\tikzset{
+  blk/.style={rectangle,rounded corners=2pt,draw=acc!80,fill=acc!8,line width=0.7pt,
+              align=center,inner sep=4pt,font=\scriptsize,minimum height=8.5mm},
+  sens/.style={blk,fill=green!7,draw=green!45!black},
+  proc/.style={blk,fill=orange!8,draw=orange!65!black},
+  fuse/.style={blk,fill=purple!8,draw=purple!60!black},
+  outp/.style={blk,fill=red!6,draw=red!60!black},
+  pr/.style={rectangle,draw=black!65,line width=0.6pt,align=left,inner sep=4pt,
+             font=\scriptsize,text width=62mm,fill=soft},
+  prx/.style={pr,text width=66mm,fill=white},
+  ar/.style={-{Latex[length=2mm,width=1.4mm]},line width=0.6pt,draw=black!70},
+}

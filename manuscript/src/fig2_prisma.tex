@@ -1,0 +1,43 @@
+\begin{tikzpicture}[node distance=5mm]
+
+\node[pr] (r1) {\textbf{Identification}\\
+  Records in the pre-specified source corpus: $n=117$\\
+  Duplicate record removed (one study cited twice): $n=1$};
+
+\node[pr,below=6mm of r1] (r2) {\textbf{Screening}\\
+  Unique bibliographic records screened: $n=116$\\
+  Records with a resolvable DOI and recoverable metadata: $n=116$};
+
+\node[prx,anchor=west] (x1) at ($(r2.east)+(9mm,-6mm)$) {\textbf{Excluded at eligibility appraisal: $n=56$}\\[1pt]
+  Outcome outside the stress, attention or cognitive-load scope: $n=41$\\
+  No quantitative evaluation of a detection model
+  (protocol, review, acceptance or intervention study): $n=10$\\
+  Not a peer-reviewed journal article (two preprints, one conference paper): $n=3$\\
+  Published outside the 2022--2026 window: $n=2$};
+
+\node[pr,below=6mm of r2] (r3) {\textbf{Eligibility}\\
+  Studies meeting all inclusion criteria: $n=60$};
+
+\node[pr,below=6mm of r3] (r4) {\textbf{Verification}\\
+  Independent corroboration of the bibliographic record and the
+  reported outcome attempted for every included study: $n=60$};
+
+\node[prx,anchor=west] (x2) at ($(r4.east)+(9mm,-6mm)$) {\textbf{Not carried into quantitative synthesis: $n=32$}\\[1pt]
+  Headline outcome not recoverable from the openly retrievable
+  record (paywalled full text): $n=32$\\
+  Bibliographic record corroborated for all 60 included studies; the
+  32 are retained in the narrative synthesis only};
+
+\node[pr,below=6mm of r4,fill=acc!10] (r5) {\textbf{Included}\\
+  Narrative synthesis: $n=60$ studies\\
+  Quantitative synthesis: $n=28$ studies contributing 34 corroborated
+  outcome records,\\ 4 within-study fusion contrasts and 10 within-study
+  evaluation contrasts};
+
+\draw[ar] (r1) -- (r2);
+\draw[ar] (r2) -- (r3);
+\draw[ar] (r3) -- (r4);
+\draw[ar] (r4) -- (r5);
+\draw[ar] ($(r2.south)!0.5!(r3.north)$) -| ($(r2.east)+(4.5mm,0)$) |- (x1.west);
+\draw[ar] ($(r4.south)!0.5!(r5.north)$) -| ($(r4.east)+(4.5mm,0)$) |- (x2.west);
+\end{tikzpicture}
