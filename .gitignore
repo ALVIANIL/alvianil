@@ -8,3 +8,4 @@ manuscript/src/p*.png
 manuscript/src/main_docx.tex
 manuscript/src/main.pdf
 manuscript/data/**/__pycache__/
+manuscript/Manuscript_BSPC_package.zip
