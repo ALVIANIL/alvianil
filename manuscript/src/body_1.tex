@@ -1,49 +1,26 @@
 \begin{center}
-{\large\bfseries Evaluation Protocol Outweighs Multimodal Fusion in Wearable and\\[2pt]
-Camera-Based Stress and Attention Monitoring:\\[2pt]
-A Systematic Review with Within-Study Meta-Analysis}\\[10pt]
+{\large\bfseries Evaluation Protocol Outweighs Multimodal Fusion in Wearable Stress and\\[2pt]
+Attention Monitoring: Systematic Review and Meta-Analysis}\\[10pt]
 \end{center}
 
 \section*{Abstract}
-\textbf{Background:} Multimodal fusion of wearable physiological sensing and camera-based
-sensing is widely presented as the route to deployable stress and attention monitoring.
-The supporting evidence, however, is assembled almost entirely from between-study
-comparisons in which fusion is confounded with the evaluation protocol, the cohort, the
-dataset and the task definition.
-
-\textbf{Methods:} We systematically screened 116 unique records published between 2022 and
-2026 and retained 60 studies reporting stress, attention, drowsiness or cognitive-load
-outcomes from wearable or camera-based sensing. Every included record was independently
-corroborated against the publisher or indexed record before use, and no value that could
-not be corroborated was carried into the synthesis. Rather than pooling headline accuracies
-across studies, we extracted only \emph{within-study} contrasts, in which a single research
-team holds the cohort, the pipeline and the evaluation protocol fixed and varies one factor.
-This yields two estimands: the fusion gain, obtained by adding modalities under a matched
-protocol, and the evaluation-induced gap, obtained by changing personalization, deployment
-setting, dataset or task granularity.
-
-\textbf{Results:} Headline outcomes were corroborable for 28 of 60 studies (46.7\%); the
-validation protocol was recoverable for only 8 studies (13.3\%) and a variance or confidence
-interval for 3 (5.0\%). Across 4 protocol-matched contrasts, the median within-study fusion
-gain was $+4.67$ percentage points (pp, range $+1.00$ to $+14.30$). Across 10 within-study
-evaluation contrasts, the median gap was $9.14$ pp (range $1.26$ to $48.66$), approximately
-twice the median fusion gain. Personalization alone accounted for a median gap of $38.03$ pp,
-including a fall from $95.06\%$ to $67.65\%$ accuracy and from $91.71$ to $43.05$ F1 within a
-single study, and moving from the laboratory to free living cost $13.00$ pp of F1. On WESAD,
-9 of 10 corroborated records exceeded $86\%$ and 7 of 9 exceeded $92\%$ irrespective of
-architecture, and leave-one-subject-out results (median $94.59\%$) were indistinguishable
-from results whose protocol was never stated (median $95.06\%$). Reported accuracy was
-uncorrelated with cohort size ($r=+0.15$, $k=15$).
-
-\textbf{Conclusions:} Under matched conditions the benefit of multimodal fusion is real but
-modest, and it is smaller than the performance swing produced by evaluation choices that are
-frequently left unreported. WESAD has saturated to the point where it no longer discriminates
-between architectures. We conclude with a reporting specification for translational work and
-argue that subject-independent, cross-dataset and free-living evaluation, not further
-architectural elaboration, is the binding constraint on deployable systems.
+Multimodal fusion of wearable and camera-based sensing is widely presented as the route to
+deployable stress and attention monitoring, yet the supporting evidence is assembled from
+between-study comparisons that confound fusion with cohort, dataset and evaluation protocol.
+We screened 116 records published between 2022 and 2026, retained 60 reporting stress,
+attention, drowsiness or cognitive-load outcomes, and independently corroborated every record
+before use. Restricting synthesis to within-study contrasts, in which one team holds cohort,
+pipeline and protocol fixed, the median fusion gain was 4.67 percentage points (pp; $k=4$,
+range 1.00 to 14.30). Across 10 within-study evaluation contrasts the median gap was 9.14 pp,
+roughly twice as large: personalization alone reached 27.41 pp of accuracy and 48.66 pp of F1
+within one study, and laboratory-to-field transfer cost 13.00 pp of F1. On WESAD, 7 of 9
+records exceeded 92\% irrespective of architecture, and leave-one-subject-out results were
+indistinguishable from those whose protocol was never stated. Fusion helps, but less than
+evaluation design; subject-independent field validation, not further architectural
+elaboration, is the binding constraint on deployable systems.
 
 \textbf{Keywords:} stress detection; attention monitoring; multimodal fusion; wearable
-biosensors; evaluation protocol; generalization.
+biosensors; evaluation protocol.
 
 \section{Introduction}
 
@@ -99,7 +76,7 @@ dashed return path denotes closed-loop actuation.}
 
 \subsection{Limitations of Unimodal Approaches and the Case for Integration}
 Each modality fails in characteristic ways. Wearable signals are corrupted by motion
-artefacts and variable skin contact, and physiological arousal caused by exertion is not
+artifacts and variable skin contact, and physiological arousal caused by exertion is not
 separable from arousal caused by stress without contextual information \cite{r19,r79}.
 Camera-based systems depend on illumination, an unoccluded face and a favorable viewing
 angle, and observe only the externally expressed surface of an internal state.
@@ -126,7 +103,7 @@ compares with the performance swing produced by evaluation design. This review a
 gap through three questions:
 
 \textbf{RQ1:} When fusion gain is estimated only from within-study, protocol-matched
-comparisons, how large is it? This matters because every deployment decision that favours a
+comparisons, how large is it? This matters because every deployment decision that favors a
 second sensor over a single one is justified by an assumed magnitude, and that magnitude has
 never been isolated from its confounds.
 

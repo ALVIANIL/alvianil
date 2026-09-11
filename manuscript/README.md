@@ -1,7 +1,7 @@
 # Manuscript: BSPC submission package
 
-**Title.** Evaluation Protocol Outweighs Multimodal Fusion in Wearable and Camera-Based
-Stress and Attention Monitoring: A Systematic Review with Within-Study Meta-Analysis
+**Title.** Evaluation Protocol Outweighs Multimodal Fusion in Wearable Stress and Attention
+Monitoring: Systematic Review and Meta-Analysis
 
 **Target journal.** Biomedical Signal Processing and Control (Elsevier).
 
@@ -9,7 +9,8 @@ Stress and Attention Monitoring: A Systematic Review with Within-Study Meta-Anal
 
 | File | Description |
 |---|---|
-| `Manuscript_BSPC.pdf` | Compiled manuscript, 0.7 in margins, 23 pages |
+| `Manuscript_BSPC.pdf` | Compiled manuscript, 0.7 in margins, 22 pages |
+| `Manuscript_BSPC.tex` | Self-contained LaTeX source (all inputs inlined) |
 | `Manuscript_BSPC.docx` | Word version with all 10 figures, 7 tables and a numbered reference list |
 | `src/` | Full LaTeX source |
 | `EVIDENCE_AUDIT.md` | Strict evidence audit of the uploaded manuscript |
