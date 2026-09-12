@@ -15,6 +15,7 @@ Monitoring: Systematic Review and Meta-Analysis
 | `Manuscript_BSPC.docx` | Word version with all 10 figures, 7 tables and a numbered reference list |
 | `src/` | Full LaTeX source |
 | `EVIDENCE_AUDIT.md` | Strict evidence audit of the uploaded manuscript |
+| `PRISMA_2020_Checklist_Completed.docx` | PRISMA 2020 checklist, all 42 items completed |
 
 ## LaTeX source
 
@@ -70,6 +71,20 @@ manuscript:
 Headline results: median within-study fusion gain +4.67 pp (k = 4, range +1.00 to +14.30);
 median within-study evaluation-induced gap 9.14 pp (k = 10, range 1.26 to 48.66);
 personalization gap 27.41 pp accuracy and 48.66 pp F1 within a single study.
+
+## PRISMA 2020 checklist
+
+`PRISMA_2020_Checklist_Completed.docx` fills the "Location where item is reported"
+column of the official template for all 42 checklist items. The template's own
+wording, styling, header and CC BY licence line are untouched; only the location
+column was completed and widened so the detailed entries are legible.
+Regenerate with `python3 prisma/fill_prisma.py`.
+
+Eleven items are reported as not done rather than claimed: 13f and 20d (no
+sensitivity analysis), 14 and 21 (no reporting-bias assessment), 15 and 22 (no
+GRADE certainty rating), 24a to 24c (not registered, no protocol), and 25 to 27
+(no funding, competing-interests or data-availability statement in the current
+manuscript). Items 8, 9 and 11 note that the number of reviewers is not stated.
 
 ## Before submission
 
