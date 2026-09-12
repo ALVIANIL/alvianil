@@ -26,6 +26,15 @@
 \setlength{\parindent}{0pt}
 \renewcommand{\arraystretch}{1.14}
 \setlength{\tabcolsep}{4pt}
+% float placement: allow large figures to occupy most of a page instead of
+% forcing a page break and leaving the remainder blank
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.82}
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{1}
+\setcounter{totalnumber}{3}
 \titleformat{\section}{\normalfont\large\bfseries}{\thesection.}{0.6em}{}
 \titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.6em}{}
 \titleformat{\subsubsection}{\normalfont\normalsize\itshape}{\thesubsubsection}{0.6em}{}

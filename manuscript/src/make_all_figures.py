@@ -26,6 +26,7 @@ Author: manuscript build pipeline
 
 import argparse
 import os
+import re
 import statistics as st
 
 import matplotlib
@@ -188,9 +189,14 @@ RECOVER = {                          # reporting items recoverable from the publ
 # =============================================================================
 # 2. SHARED STYLE
 # =============================================================================
+# Figures are laid out so that, after being scaled to the 6.87 in text width of
+# the manuscript, every label renders at roughly 10 pt against 11 pt body text.
+# Two-panel figures are therefore stacked vertically: each panel then occupies
+# the full text width instead of half of it.
+FIGW = 10.0                      # canvas width (in) -> 0.687 scale on the page
 plt.rcParams.update({
-    "font.size": 16, "axes.titlesize": 17, "axes.labelsize": 16,
-    "xtick.labelsize": 14.5, "ytick.labelsize": 14.5, "legend.fontsize": 14,
+    "font.size": 15, "axes.titlesize": 16.5, "axes.labelsize": 15,
+    "xtick.labelsize": 14, "ytick.labelsize": 14, "legend.fontsize": 13.5,
     "figure.dpi": 200, "savefig.dpi": 400, "savefig.bbox": "tight",
     "axes.grid": True, "grid.alpha": 0.25, "grid.linestyle": ":",
     "axes.axisbelow": True, "font.family": "DejaVu Sans",
@@ -208,10 +214,17 @@ KIND_COLOR = {"Personalization": C["purple"], "Deployment setting": C["red"],
 RNG = np.random.default_rng(7)
 
 
-def panel(ax, letter):
-    """Label a subplot (a), (b), ... in the manuscript's convention."""
-    ax.text(-0.055, 1.045, f"({letter})", transform=ax.transAxes,
-            fontsize=18, fontweight="bold", va="bottom", ha="right")
+def label_panels(fig, axes):
+    """Stamp (a), (b), ... at the left margin above each panel.
+
+    Called after tight_layout so the axes positions are final; this keeps the
+    letters clear of long tick labels and of the panel titles.
+    """
+    fig.canvas.draw()
+    for ax, letter in zip(np.atleast_1d(axes), "abcdefgh"):
+        bb = ax.get_position()
+        fig.text(0.004, bb.y1 + 0.006, f"({letter})", fontsize=17,
+                 fontweight="bold", va="bottom", ha="left")
 
 
 def save(fig, outdir, name):
@@ -226,37 +239,37 @@ def save(fig, outdir, name):
 # =============================================================================
 def figure3(outdir):
     M = np.array([YEAR_AREA[a] for a in AREAS], float)
-    fig, ax = plt.subplots(1, 2, figsize=(17.5, 6.6))
+    fig, ax = plt.subplots(2, 1, figsize=(FIGW, 7.6))
 
     bot = np.zeros(len(YEARS))
     for i, a in enumerate(AREAS):
         ax[0].bar(YEARS, M[i], bottom=bot, label=a, color=AREA_COLORS[i],
-                  edgecolor="white", linewidth=1.0)
+                  edgecolor="white", linewidth=1.1, width=0.66)
         bot += M[i]
     for x, t in enumerate(bot):
-        ax[0].text(x, t + 0.35, f"{int(t)}", ha="center", fontweight="bold", fontsize=15)
+        ax[0].text(x, t + 0.4, f"{int(t)}", ha="center", fontweight="bold", fontsize=15)
     ax[0].set_xlabel("Publication year")
-    ax[0].set_ylabel("Number of included studies")
+    ax[0].set_ylabel("Included studies")
     ax[0].set_title("Included studies by year and application area")
-    ax[0].set_ylim(0, bot.max() + 3.4)
+    ax[0].set_ylim(0, bot.max() + 9.5)
     ax[0].yaxis.set_major_locator(MaxNLocator(integer=True))
-    ax[0].legend(ncol=2, frameon=False, loc="upper left", fontsize=13)
-    panel(ax[0], "a")
+    ax[0].legend(ncol=4, frameon=False, loc="upper left", fontsize=13,
+                 columnspacing=1.2, handlelength=1.4)
 
     tot = M.sum(1)
     order = np.argsort(tot)
-    ax[1].barh([AREAS[i] for i in order], tot[order],
-               color=[AREA_COLORS[i] for i in order], edgecolor="white", linewidth=1.0)
+    ax[1].barh([AREAS[i] for i in order], tot[order], height=0.66,
+               color=[AREA_COLORS[i] for i in order], edgecolor="white", linewidth=1.1)
     for i, v in enumerate(tot[order]):
-        ax[1].text(v + 0.2, i, f"{int(v)} ({v / tot.sum() * 100:.0f}%)",
+        ax[1].text(v + 0.25, i, f"{int(v)} ({v / tot.sum() * 100:.0f}%)",
                    va="center", fontsize=14)
-    ax[1].set_xlabel("Number of included studies")
+    ax[1].set_xlabel("Included studies")
     ax[1].set_title("Application area of the included corpus")
-    ax[1].set_xlim(0, tot.max() * 1.32)
+    ax[1].set_xlim(0, tot.max() * 1.28)
     ax[1].grid(axis="y", alpha=0)
-    panel(ax[1], "b")
 
-    fig.tight_layout()
+    fig.tight_layout(h_pad=2.6)
+    label_panels(fig, ax)
     save(fig, outdir, "fig3_corpus.png")
 
 
@@ -268,41 +281,38 @@ def figure3(outdir):
 def figure4(outdir):
     keys = ["E3", "E4", "E2", "E1"]
     vals = [EXCLUSIONS[k] for k in keys]
-    fig, ax = plt.subplots(1, 2, figsize=(18, 6.8))
+    fig, ax = plt.subplots(2, 1, figsize=(FIGW, 7.6))
 
     xs = np.arange(len(keys))
-    ax[0].bar(xs, vals, width=0.62,
+    ax[0].bar(xs, vals, width=0.58,
               color=[C["red"], C["orange"], C["gold"], C["slate"]],
-              edgecolor="white", linewidth=1.0)
+              edgecolor="white", linewidth=1.1)
     for i, v in enumerate(vals):
-        ax[0].text(i, v + 0.8, f"{v} ({v / N_EXCLUDED * 100:.0f}%)",
+        ax[0].text(i, v + 1.0, f"{v} ({v / N_EXCLUDED * 100:.0f}%)",
                    ha="center", fontweight="bold", fontsize=14.5)
     ax[0].set_xticks(xs)
-    ax[0].set_xticklabels([EXCL_LABEL[k] for k in keys], fontsize=12.5,
-                          linespacing=1.35)
-    ax[0].set_xlim(-0.62, len(keys) - 0.38)
+    ax[0].set_xticklabels([EXCL_LABEL[k] for k in keys], fontsize=13.5, linespacing=1.4)
+    ax[0].set_xlim(-0.6, len(keys) - 0.4)
     ax[0].set_ylabel("Records excluded")
-    ax[0].set_ylim(0, max(vals) + 7)
+    ax[0].set_ylim(0, max(vals) + 8)
     ax[0].yaxis.set_major_locator(MaxNLocator(integer=True))
     ax[0].set_title(f"Reasons for exclusion at full-record appraisal (n = {N_EXCLUDED})")
-    panel(ax[0], "a")
 
     pk = list(PUBLISHERS)
     pv = [PUBLISHERS[p] for p in pk]
-    ax[1].bar(np.arange(len(pk)), pv, width=0.62, color=C["blue"],
-              edgecolor="white", linewidth=1.0)
+    ax[1].bar(np.arange(len(pk)), pv, width=0.58, color=C["blue"],
+              edgecolor="white", linewidth=1.1)
     for i, v in enumerate(pv):
-        ax[1].text(i, v + 0.45, str(v), ha="center", fontweight="bold", fontsize=14.5)
+        ax[1].text(i, v + 0.5, str(v), ha="center", fontweight="bold", fontsize=14.5)
     ax[1].set_xticks(np.arange(len(pk)))
-    ax[1].set_xticklabels([p.replace(" ", "\n") for p in pk], fontsize=13,
-                          linespacing=1.35)
+    ax[1].set_xticklabels([p.replace(" ", "\n") for p in pk], fontsize=13.5, linespacing=1.4)
     ax[1].set_ylabel("Included studies")
-    ax[1].set_ylim(0, max(pv) + 3.5)
+    ax[1].set_ylim(0, max(pv) + 4)
     ax[1].yaxis.set_major_locator(MaxNLocator(integer=True))
     ax[1].set_title(f"Publisher of record for the included corpus (n = {N_INCLUDED})")
-    panel(ax[1], "b")
 
-    fig.tight_layout()
+    fig.tight_layout(h_pad=2.6)
+    label_panels(fig, ax)
     save(fig, outdir, "fig4_screening.png")
 
 
@@ -331,9 +341,9 @@ def figure5(outdir):
         groups.setdefault(_family(o["mod"]), []).append(o["value"])
     keys = sorted(groups, key=lambda k: -st.median(groups[k]))
 
-    fig, ax = plt.subplots(figsize=(14.5, 7.4))
+    fig, ax = plt.subplots(figsize=(FIGW, 5.6))
     pos = np.arange(len(keys))
-    bp = ax.boxplot([groups[k] for k in keys], positions=pos, widths=0.55,
+    bp = ax.boxplot([groups[k] for k in keys], positions=pos, widths=0.5,
                     patch_artist=True, medianprops=dict(color="black", lw=2.4),
                     whiskerprops=dict(lw=1.5), capprops=dict(lw=1.5),
                     flierprops=dict(marker=""))
@@ -343,19 +353,19 @@ def figure5(outdir):
         p.set_edgecolor(col); p.set_linewidth(2)
     for i, k in enumerate(keys):
         v = groups[k]
-        ax.scatter(np.full(len(v), i) + RNG.uniform(-0.16, 0.16, len(v)), v,
-                   s=95, color=C["grey"], zorder=4, edgecolor="white", linewidth=1.2)
-        ax.text(i, 101.6, f"k = {len(v)}", ha="center", fontsize=14, fontweight="bold")
-        ax.text(i, 59.0, f"median\n{st.median(v):.1f}%", ha="center",
-                fontsize=13.5, color=C["grey"])
+        ax.scatter(np.full(len(v), i) + RNG.uniform(-0.15, 0.15, len(v)), v,
+                   s=80, color=C["grey"], zorder=4, edgecolor="white", linewidth=1.1)
+        ax.text(i, 102.2, f"k = {len(v)}", ha="center", fontsize=13.5, fontweight="bold")
+        ax.text(i, 58.6, f"median\n{st.median(v):.1f}%", ha="center",
+                fontsize=13, color=C["grey"])
     ax.set_xticks(pos)
-    ax.set_xticklabels(keys, fontsize=13.5)
-    ax.set_ylabel("Corroborated reported accuracy (%)")
-    ax.set_ylim(56, 105)
+    ax.set_xticklabels(keys, fontsize=13, linespacing=1.4)
+    ax.set_ylabel("Corroborated accuracy (%)")
+    ax.set_ylim(55, 106)
     ax.set_title("Corroborated classification accuracy by sensing configuration")
     ax.axhline(90, color=C["red"], ls="--", lw=1.8, alpha=0.8)
-    ax.text(len(keys) - 0.42, 90.6, "90% reference", color=C["red"],
-            fontsize=13.5, ha="right")
+    ax.text(len(keys) - 0.45, 90.7, "90% reference", color=C["red"],
+            fontsize=13, ha="right")
     fig.tight_layout()
     save(fig, outdir, "fig5_modality.png")
 
@@ -365,22 +375,26 @@ def figure5(outdir):
 # =============================================================================
 def figure6(outdir):
     w = [o for o in OUTCOMES if "WESAD" in o["dataset"]]
-    lab = [f"{o['study'].split(' et al')[0].split(' &')[0]}\n{o['year']} ({o['classes']}-cls)"
-           for o in w]
+    def _name(o):
+        base = o["study"].split(" et al")[0].split(" &")[0]
+        m = re.search(r"\(([^)]+)\)", o["study"])
+        return f"{base} {m.group(1)}" if m else base
+    lab = [f"{_name(o)} {o['year']} ({o['classes']}-cls)" for o in w]
     val = [o["value"] for o in w]
     prot = [o["protocol"] for o in w]
     idx = np.argsort(val)
 
-    fig, ax = plt.subplots(1, 2, figsize=(18, 7.0))
-    ax[0].barh(range(len(idx)), [val[i] for i in idx],
+    fig, ax = plt.subplots(2, 1, figsize=(FIGW, 8.4),
+                           gridspec_kw={"height_ratios": [1.25, 1]})
+    ax[0].barh(range(len(idx)), [val[i] for i in idx], height=0.66,
                color=[PROTO_COLOR[prot[i]] for i in idx],
                edgecolor="white", linewidth=1.2)
     ax[0].set_yticks(range(len(idx)))
-    ax[0].set_yticklabels([lab[i] for i in idx], fontsize=13)
+    ax[0].set_yticklabels([lab[i] for i in idx], fontsize=13.5)
     for j, i in enumerate(idx):
-        ax[0].text(val[i] + 0.7, j, f"{val[i]:.2f}", va="center",
+        ax[0].text(val[i] + 0.6, j, f"{val[i]:.2f}", va="center",
                    fontsize=13.5, fontweight="bold")
-    ax[0].set_xlim(60, 106)
+    ax[0].set_xlim(60, 108)
     ax[0].set_xlabel("Reported accuracy on WESAD (%)")
     ax[0].set_title("WESAD results, ordered by reported accuracy")
     ax[0].grid(axis="y", alpha=0)
@@ -388,9 +402,8 @@ def figure6(outdir):
     handles = [plt.Rectangle((0, 0), 1, 1, color=PROTO_COLOR[k]) for k in order]
     ax[0].legend(handles, ["Personalized (subject-dependent)", "Protocol not reported",
                            "Leave-one-subject-out", "Subject-independent generalized"],
-                 loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=2,
+                 loc="upper center", bbox_to_anchor=(0.5, -0.19), ncol=2,
                  frameon=False, fontsize=12.5)
-    panel(ax[0], "a")
 
     byp = {}
     for v, p in zip(val, prot):
@@ -398,24 +411,25 @@ def figure6(outdir):
     ordk = [k for k in order if k in byp]
     for i, k in enumerate(ordk):
         v = byp[k]
-        ax[1].scatter(np.full(len(v), i) + RNG.uniform(-0.1, 0.1, len(v)), v,
-                      s=190, color=PROTO_COLOR[k], edgecolor="white",
+        ax[1].scatter(np.full(len(v), i) + RNG.uniform(-0.08, 0.08, len(v)), v,
+                      s=170, color=PROTO_COLOR[k], edgecolor="white",
                       linewidth=1.5, zorder=3)
-        ax[1].hlines(st.median(v), i - 0.28, i + 0.28, color="black", lw=3, zorder=4)
-        ax[1].text(i, 58.5, f"k = {len(v)}\nmed {st.median(v):.1f}%",
-                   ha="center", fontsize=13.5)
+        ax[1].hlines(st.median(v), i - 0.24, i + 0.24, color="black", lw=3, zorder=4)
+        ax[1].text(i, 58.4, f"k = {len(v)}\nmedian {st.median(v):.1f}%",
+                   ha="center", fontsize=12.5, linespacing=1.35)
     ax[1].set_xticks(range(len(ordk)))
-    ax[1].set_xticklabels(["Personalized", "Not\nreported", "LOSO",
-                           "Subject-\nindependent"], fontsize=14)
-    ax[1].set_ylabel("Reported accuracy on WESAD (%)")
-    ax[1].set_ylim(55, 104)
+    ax[1].set_xticklabels(["Personalized", "Not reported", "LOSO",
+                           "Subject-independent"], fontsize=13.5)
+    ax[1].set_xlim(-0.5, len(ordk) - 0.5)
+    ax[1].set_ylabel("Accuracy on WESAD (%)")
+    ax[1].set_ylim(53, 104)
     ax[1].set_title("The same benchmark, stratified by evaluation protocol")
     ax[1].axhspan(92, 100, color=C["gold"], alpha=0.13)
-    ax[1].text(-0.42, 96.2, "saturation\nband\n(92-100%)", fontsize=12.5,
-               color=C["gold"], ha="left", va="center", fontweight="bold")
-    panel(ax[1], "b")
+    ax[1].text(len(ordk) - 0.56, 101.2, "saturation band (92 to 100%)", fontsize=12.5,
+               color=C["gold"], ha="right", va="center", fontweight="bold")
 
-    fig.subplots_adjust(bottom=0.28, wspace=0.3)
+    fig.tight_layout(h_pad=4.6)
+    label_panels(fig, ax)
     save(fig, outdir, "fig6_wesad.png")
 
 
@@ -425,44 +439,43 @@ def figure6(outdir):
 def figure7(outdir):
     fs = sorted(FUSION, key=lambda r: r["m"] - r["u"])
     lc = {"Feature-level": C["blue"], "Decision-level": C["orange"]}
-    fig, ax = plt.subplots(1, 2, figsize=(17.5, 7.0))
+    fig, ax = plt.subplots(2, 1, figsize=(FIGW, 7.9))
 
     for i, r in enumerate(fs):
         col = lc[r["level"]]
-        ax[0].plot([0, 1], [r["u"], r["m"]], "-o", color=col, lw=3, ms=13,
+        ax[0].plot([0, 1], [r["u"], r["m"]], "-o", color=col, lw=3, ms=12,
                    markeredgecolor="white", markeredgewidth=1.6, zorder=3)
-        dy = {2: 1.1, 1: -1.1}.get(i, 0.0)
-        ax[0].annotate(f"{r['study'].split(' (')[0]}\n+{r['m'] - r['u']:.2f} pp",
-                       (1.035, r["m"] + dy), fontsize=13.5, va="center",
+        dy = {2: 1.0, 1: -1.0}.get(i, 0.0)
+        ax[0].annotate(f"{r['study'].split(' (')[0]}  +{r['m'] - r['u']:.2f} pp",
+                       (1.03, r["m"] + dy), fontsize=13.5, va="center",
                        color=col, fontweight="bold")
-    ax[0].set_xlim(-0.18, 1.75)
+    ax[0].set_xlim(-0.14, 2.05)
     ax[0].set_xticks([0, 1])
-    ax[0].set_xticklabels(["Best single\nmodality", "Multimodal\nfusion"], fontsize=15)
+    ax[0].set_xticklabels(["Best single modality", "Multimodal fusion"], fontsize=14.5)
     ax[0].set_ylabel("Reported performance (%)")
     ax[0].set_title("Within-study, protocol-matched fusion contrasts")
-    handles = [plt.Line2D([], [], color=lc[k], lw=3, marker="o", ms=10) for k in lc]
-    ax[0].legend(handles, list(lc), frameon=False, loc="lower left", fontsize=13.5)
-    panel(ax[0], "a")
+    handles = [plt.Line2D([], [], color=lc[k], lw=3, marker="o", ms=9) for k in lc]
+    ax[0].legend(handles, list(lc), frameon=False, loc="lower left", fontsize=13)
 
     g = [r["m"] - r["u"] for r in fs]
-    ax[1].barh(range(len(g)), g, color=[lc[r["level"]] for r in fs],
+    ax[1].barh(range(len(g)), g, height=0.6, color=[lc[r["level"]] for r in fs],
                edgecolor="white", linewidth=1.2)
     for i, v in enumerate(g):
-        ax[1].text(v + 0.28, i, f"+{v:.2f} pp", va="center",
+        ax[1].text(v + 0.25, i, f"+{v:.2f} pp", va="center",
                    fontweight="bold", fontsize=14)
     ax[1].set_yticks(range(len(g)))
     ax[1].set_yticklabels([r["study"].split(" (")[0] for r in fs], fontsize=13.5)
     ax[1].axvline(st.median(g), color=C["red"], ls="--", lw=2.2)
-    ax[1].text(st.median(g) + 0.28, -0.62, f"median\n+{st.median(g):.2f} pp",
+    ax[1].text(st.median(g) + 0.25, -0.66, f"median +{st.median(g):.2f} pp",
                color=C["red"], fontsize=13.5, fontweight="bold")
     ax[1].set_xlabel("Gain over the best single modality (percentage points)")
-    ax[1].set_xlim(0, max(g) * 1.34)
-    ax[1].set_ylim(-0.95, len(g) - 0.35)
+    ax[1].set_xlim(0, max(g) * 1.3)
+    ax[1].set_ylim(-1.0, len(g) - 0.35)
     ax[1].set_title("Magnitude of the corroborated fusion gain")
     ax[1].grid(axis="y", alpha=0)
-    panel(ax[1], "b")
 
-    fig.tight_layout()
+    fig.tight_layout(h_pad=2.8)
+    label_panels(fig, ax)
     save(fig, outdir, "fig7_fusion.png")
 
 
@@ -473,29 +486,32 @@ def figure7(outdir):
 # =============================================================================
 def figure8(outdir):
     kinds = ["Personalization", "Deployment setting", "Task granularity", "Dataset transfer"]
-    fig, ax = plt.subplots(1, 2, figsize=(18.5, 7.2))
+    fig, ax = plt.subplots(2, 1, figsize=(FIGW, 10.2),
+                           gridspec_kw={"height_ratios": [1.35, 1]})
 
     rows = sorted(PROTOCOL, key=lambda r: r["hi"] - r["lo"])
     for i, r in enumerate(rows):
         d = r["hi"] - r["lo"]
         col = KIND_COLOR[r["kind"]]
-        ax[0].plot([r["lo"], r["hi"]], [i, i], color=col, lw=4, zorder=2)
-        ax[0].scatter([r["lo"], r["hi"]], [i, i], s=150, color=col,
+        ax[0].plot([r["lo"], r["hi"]], [i, i], color=col, lw=4.5, zorder=2)
+        ax[0].scatter([r["lo"], r["hi"]], [i, i], s=130, color=col,
                       edgecolor="white", linewidth=1.5, zorder=3)
-        ax[0].text(r["hi"] + 1.1, i, f"{d:.2f} pp", va="center",
+        ax[0].text(r["hi"] + 1.0, i, f"{d:.2f} pp", va="center",
                    fontsize=13.5, fontweight="bold", color=col)
     ax[0].set_yticks(range(len(rows)))
-    ax[0].set_yticklabels([f"{r['study'].split(' (')[0]}\n{r['contrast']} [{r['metric']}]"
-                           for r in rows], fontsize=12)
+    _abbr = {"Personalized vs subject-independent": "Personalized vs subject-indep.",
+             "WESAD vs Wellby real-world cohort": "WESAD vs real-world cohort"}
+    ax[0].set_yticklabels(
+        [f"{r['study'].split(' (')[0]}\n{_abbr.get(r['contrast'], r['contrast'])} "
+         f"[{r['metric']}]" for r in rows], fontsize=12, linespacing=1.35)
     ax[0].set_xlabel("Reported performance (%)")
-    ax[0].set_xlim(38, 118)
-    ax[0].set_ylim(-1.5, len(rows) - 0.4)
+    ax[0].set_xlim(38, 116)
+    ax[0].set_ylim(-1.1, len(rows) - 0.3)
     ax[0].set_title("Within-study contrasts attributable to evaluation choices")
     ax[0].grid(axis="y", alpha=0)
-    handles = [plt.Line2D([], [], color=KIND_COLOR[k], lw=4) for k in kinds]
+    handles = [plt.Line2D([], [], color=KIND_COLOR[k], lw=4.5) for k in kinds]
     ax[0].legend(handles, kinds, frameon=False, loc="upper center",
-                 bbox_to_anchor=(0.5, -0.13), ncol=4, fontsize=13)
-    panel(ax[0], "a")
+                 bbox_to_anchor=(0.5, -0.13), ncol=4, fontsize=12.5)
 
     fg = [r["m"] - r["u"] for r in FUSION]
     short = {"Personalization": "Personal-\nization", "Deployment setting": "Lab to\nfield",
@@ -506,17 +522,16 @@ def figure8(outdir):
         vals.append([r["hi"] - r["lo"] for r in PROTOCOL if r["kind"] == k])
         cols.append(KIND_COLOR[k])
     for i, (v, col) in enumerate(zip(vals, cols)):
-        ax[1].scatter(np.full(len(v), i) + RNG.uniform(-0.09, 0.09, len(v)), v,
-                      s=200, color=col, edgecolor="white", linewidth=1.6, zorder=3)
-        ax[1].hlines(st.median(v), i - 0.3, i + 0.3, color="black", lw=3.2, zorder=4)
-        ax[1].text(i, -4.2, f"k = {len(v)}\nmed {st.median(v):.1f}",
-                   ha="center", fontsize=13)
+        ax[1].scatter(np.full(len(v), i) + RNG.uniform(-0.07, 0.07, len(v)), v,
+                      s=175, color=col, edgecolor="white", linewidth=1.6, zorder=3)
+        ax[1].hlines(st.median(v), i - 0.26, i + 0.26, color="black", lw=3.2, zorder=4)
+        ax[1].text(i, -7.0, f"k = {len(v)}\nmed {st.median(v):.1f}",
+                   ha="center", fontsize=12.5, linespacing=1.35)
     med = st.median(fg)
     ax[1].axhline(med, color=C["blue"], ls="--", lw=2.2, alpha=0.85, zorder=1)
-    # annotation parked in the empty upper-left quadrant, with a leader line
     ax[1].annotate(f"median fusion gain = {med:.2f} pp",
-                   xy=(0.42, med), xytext=(0.30, 44),
-                   fontsize=14, fontweight="bold", color=C["blue"], ha="left",
+                   xy=(3.6, med), xytext=(1.55, 34),
+                   fontsize=13.5, fontweight="bold", color=C["blue"], ha="left",
                    va="center",
                    bbox=dict(boxstyle="round,pad=0.35", fc="white",
                              ec=C["blue"], lw=1.4, alpha=0.96),
@@ -525,13 +540,13 @@ def figure8(outdir):
                                    connectionstyle="angle,angleA=0,angleB=90,rad=4"))
     ax[1].set_xticks(range(len(cats)))
     ax[1].set_xticklabels(cats, fontsize=13)
-    ax[1].set_xlim(-0.6, len(cats) - 0.4)
-    ax[1].set_ylabel("Within-study performance difference (pp)")
-    ax[1].set_ylim(-9, 56)
+    ax[1].set_xlim(-0.55, len(cats) - 0.45)
+    ax[1].set_ylabel("Within-study difference (pp)")
+    ax[1].set_ylim(-11, 56)
     ax[1].set_title("Fusion gain against evaluation-induced differences")
-    panel(ax[1], "b")
 
-    fig.subplots_adjust(bottom=0.24, wspace=0.42)
+    fig.tight_layout(h_pad=4.4)
+    label_panels(fig, ax)
     save(fig, outdir, "fig8_protocol_vs_fusion.png")
 
 
@@ -547,34 +562,31 @@ def figure9(outdir):
              "WESAD vs SWELL-KW":         ("Khayyat et al.", "WESAD $\\rightarrow$", "SWELL-KW"),
              "WESAD vs Wellby real-world cohort": ("Laiti et al.", "WESAD $\\rightarrow$", "real world")}
 
-    fig, ax = plt.subplots(1, 2, figsize=(19.5, 7.2),
-                           gridspec_kw={"width_ratios": [1.35, 1]})
+    fig, ax = plt.subplots(2, 1, figsize=(FIGW, 7.9))
     x = np.arange(len(tr))
-    wd = 0.34
+    wd = 0.3
     ax[0].bar(x - wd / 2, [r["hi"] for r in tr], wd, label="Development condition",
               color=C["blue"], edgecolor="white", linewidth=1.2)
     ax[0].bar(x + wd / 2, [r["lo"] for r in tr], wd, label="Transfer condition",
               color=C["red"], edgecolor="white", linewidth=1.2)
     for i, r in enumerate(tr):
-        ax[0].text(i - wd / 2, r["hi"] + 0.7, f"{r['hi']:.1f}", ha="center", fontsize=13.5)
-        ax[0].text(i + wd / 2, r["lo"] + 0.7, f"{r['lo']:.1f}", ha="center", fontsize=13.5)
-        ax[0].annotate(f"-{r['hi'] - r['lo']:.1f} pp", (i, max(r["hi"], r["lo"]) + 3.6),
-                       ha="center", fontsize=14.5, fontweight="bold", color=C["red"])
+        ax[0].text(i - wd / 2, r["hi"] + 0.8, f"{r['hi']:.1f}", ha="center", fontsize=13.5)
+        ax[0].text(i + wd / 2, r["lo"] + 0.8, f"{r['lo']:.1f}", ha="center", fontsize=13.5)
+        ax[0].annotate(f"-{r['hi'] - r['lo']:.1f} pp", (i, max(r["hi"], r["lo"]) + 4.2),
+                       ha="center", fontsize=14, fontweight="bold", color=C["red"])
     ax[0].set_xticks(x)
     ax[0].set_xticklabels(["\n".join(short[r["contrast"]]) for r in tr],
                           fontsize=12.5, linespacing=1.5)
-    ax[0].set_xlim(-0.6, len(tr) - 0.4)
+    ax[0].set_xlim(-0.55, len(tr) - 0.45)
     ax[0].set_ylabel("Reported performance (%)")
-    ax[0].set_ylim(55, 105)
+    ax[0].set_ylim(55, 112)
     ax[0].set_title("Loss on leaving the development condition")
-    ax[0].legend(frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.255),
-                 ncol=2, fontsize=13)
-    panel(ax[0], "a")
+    ax[0].legend(frameon=True, framealpha=0.95, loc="upper left", fontsize=13, ncol=2)
 
     sz = [(o["n"], o["value"], o["protocol"]) for o in OUTCOMES
           if o["n"] and o["metric"] == "Accuracy"]
     for n, v, p in sz:
-        ax[1].scatter(n, v, s=190, color=PROTO_COLOR.get(p, C["slate"]),
+        ax[1].scatter(n, v, s=170, color=PROTO_COLOR.get(p, C["slate"]),
                       edgecolor="white", linewidth=1.5, alpha=0.9, zorder=3)
     xs = np.array([s[0] for s in sz], float)
     ys = np.array([s[1] for s in sz])
@@ -582,10 +594,10 @@ def figure9(outdir):
     gx = np.logspace(np.log10(xs.min()), np.log10(xs.max()), 60)
     ax[1].plot(gx, a + b * np.log10(gx), "--", color=C["grey"], lw=2.4)
     r = np.corrcoef(np.log10(xs), ys)[0, 1]
-    ax[1].text(0.04, 0.06,
-               f"slope = {b:+.1f} pp per decade\nPearson r = {r:+.2f}  (k = {len(sz)})",
-               transform=ax[1].transAxes, fontsize=14,
-               bbox=dict(fc="white", ec=C["grey"], alpha=0.9))
+    ax[1].text(0.035, 0.07,
+               f"slope = {b:+.1f} pp per decade,  Pearson r = {r:+.2f}  (k = {len(sz)})",
+               transform=ax[1].transAxes, fontsize=13.5,
+               bbox=dict(fc="white", ec=C["grey"], alpha=0.92))
     ax[1].set_xscale("log")
     ticks = [15, 20, 30, 50, 100, 200]
     ax[1].xaxis.set_major_locator(FixedLocator(ticks))
@@ -595,9 +607,9 @@ def figure9(outdir):
     ax[1].set_ylabel("Corroborated accuracy (%)")
     ax[1].set_ylim(58, 104)
     ax[1].set_title("Reported accuracy against evaluation cohort size")
-    panel(ax[1], "b")
 
-    fig.subplots_adjust(bottom=0.34, wspace=0.24)
+    fig.tight_layout(h_pad=2.8)
+    label_panels(fig, ax)
     save(fig, outdir, "fig9_transfer.png")
 
 
@@ -606,38 +618,37 @@ def figure9(outdir):
 # =============================================================================
 def figure10(outdir):
     na, nc = len(ATTEMPTED), len(CORROBORATED)
-    fig, ax = plt.subplots(1, 2, figsize=(17.5, 6.6))
+    fig, ax = plt.subplots(2, 1, figsize=(FIGW, 7.2))
 
-    ax[0].bar(["Headline outcome\ncorroborated", "Full text not openly\nretrievable"],
+    ax[0].bar(["Headline outcome corroborated", "Full text not openly retrievable"],
               [nc, na - nc], color=[C["green"], C["slate"]],
-              edgecolor="white", linewidth=1.2, width=0.55)
+              edgecolor="white", linewidth=1.2, width=0.5)
     for i, v in enumerate([nc, na - nc]):
-        ax[0].text(i, v + 0.45, f"{v} ({v / na * 100:.1f}%)", ha="center",
-                   fontweight="bold", fontsize=15)
-    ax[0].set_ylabel("Studies in the included corpus")
-    ax[0].set_ylim(0, na * 0.82)
+        ax[0].text(i, v + 0.6, f"{v} ({v / na * 100:.1f}%)", ha="center",
+                   fontweight="bold", fontsize=14.5)
+    ax[0].set_ylabel("Included studies")
+    ax[0].set_ylim(0, na * 0.75)
+    ax[0].set_xlim(-0.6, 1.6)
+    ax[0].tick_params(axis="x", labelsize=13.5)
     ax[0].yaxis.set_major_locator(MaxNLocator(integer=True))
     ax[0].set_title(f"Independent corroboration of reported outcomes (n = {na})")
-    panel(ax[0], "a")
 
-    fields = [k.replace(" size", "\nsize").replace("benchmark ", "benchmark\n")
-               .replace(" CI ", " CI\n") for k in RECOVER]
+    fields = list(RECOVER)
     ok = list(RECOVER.values())
-    ax[1].barh(fields, [v / na * 100 for v in ok], color=C["blue"],
+    ax[1].barh(fields, [v / na * 100 for v in ok], height=0.6, color=C["blue"],
                edgecolor="white", linewidth=1.2)
     for i, v in enumerate(ok):
-        ax[1].text(v / na * 100 + 1.4, i, f"{v}/{na} ({v / na * 100:.0f}%)",
+        ax[1].text(v / na * 100 + 1.2, i, f"{v}/{na} ({v / na * 100:.0f}%)",
                    va="center", fontsize=13.5, fontweight="bold")
     ax[1].set_xlabel("Studies for which the item was recoverable (%)")
-    ax[1].set_xlim(0, 92)
+    ax[1].set_xlim(0, 78)
     ax[1].grid(axis="y", alpha=0)
     ax[1].set_title("Recoverability of reporting items from the public record")
     ax[1].tick_params(axis="y", labelsize=13.5)
-    panel(ax[1], "b")
 
-    fig.tight_layout()
+    fig.tight_layout(h_pad=2.6)
+    label_panels(fig, ax)
     save(fig, outdir, "fig10_verifiability.png")
-
 
 # =============================================================================
 # 11. FIGURE 1  system block diagram  (LaTeX / TikZ source)

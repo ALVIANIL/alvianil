@@ -37,6 +37,15 @@
 \setlength{\parindent}{0pt}
 \renewcommand{\arraystretch}{1.14}
 \setlength{\tabcolsep}{4pt}
+% float placement: allow large figures to occupy most of a page instead of
+% forcing a page break and leaving the remainder blank
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.82}
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{1}
+\setcounter{totalnumber}{3}
 \titleformat{\section}{\normalfont\large\bfseries}{\thesection.}{0.6em}{}
 \titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.6em}{}
 \titleformat{\subsubsection}{\normalfont\normalsize\itshape}{\thesubsubsection}{0.6em}{}
@@ -178,7 +187,7 @@ stage. The element we place on an equal footing with the others, and which motiv
 review, is the evaluation protocol: it is not a reporting detail appended to a system but the
 stage that determines what any reported accuracy actually means.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
 \resizebox{\textwidth}{!}{\begin{tikzpicture}[
   x=1mm, y=1mm,
@@ -539,7 +548,7 @@ wearable sensing methodology in IEEE sensor, biomedical and affective computing 
 while the PLOS records show the lowest inclusion yield because that portion of the pool is
 weighted towards clinical and device-validation work outside the present scope.
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \caption{Composition of the screened corpus and inclusion yield by publisher of record.
 Inclusion yield is the proportion of screened records from that publisher that met all
@@ -579,7 +588,7 @@ frequently cited in stress-monitoring reviews, because pooling them inflates app
 coverage without contributing evidence about the states of interest. Second, independent
 corroboration of the bibliographic record was itself a requirement rather than a courtesy.
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \caption{Eligibility criteria and the number of records excluded under each. Exclusion
 reasons are mutually exclusive and were applied in the order listed.}
@@ -630,7 +639,7 @@ within-study fusion contrasts and 10 within-study evaluation contrasts. The rema
 studies are retained in the narrative synthesis, where their design and findings are
 described, but contribute no numbers.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
 \resizebox{0.95\textwidth}{!}{\begin{tikzpicture}[node distance=5mm]
 
@@ -694,9 +703,9 @@ driving and aviation settings that most motivate the field account for 4 (7\%) c
 evidence base is therefore concentrated precisely where evaluation conditions are most
 favorable and least representative of deployment.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.99\textwidth]{fig3_corpus.png}
+\includegraphics[width=\textwidth]{fig3_corpus.png}
 \caption{Composition of the included corpus. Figure~\ref{fig:corpus}(a) shows the number of
 included studies per publication year, with each bar decomposed by application area and the
 annual total printed above the bar. Figure~\ref{fig:corpus}(b) shows the total number of
@@ -710,9 +719,9 @@ shows the publisher of record for the included studies. Out-of-scope outcomes ac
 of 56 exclusions (73\%), which quantifies how much of the material customarily cited in this
 area does not in fact report a stress or attention outcome.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.99\textwidth]{fig4_screening.png}
+\includegraphics[width=\textwidth]{fig4_screening.png}
 \caption{Screening outcome and corpus provenance. Figure~\ref{fig:screen}(a) shows the number
 of records excluded under each eligibility criterion, with the percentage of all exclusions
 annotated. Figure~\ref{fig:screen}(b) shows the publisher of record for the 60 included
@@ -729,7 +738,7 @@ point estimate. These items were chosen because each is necessary to decide whet
 reported number transfers. Results are given in Table~\ref{tab:t3} and analyzed in
 Section~4.4.
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \caption{Recovery of reporting items across all 60 included studies. An item is counted as
 recovered only where it was explicitly obtained from the openly retrievable record during
@@ -781,7 +790,7 @@ pulse alone reaches $98.23\%$ on WESAD \cite{r50}, and in-ear PPG alone reaches 
 \cite{r43}, both above every multimodal record in the table. This is already inconsistent
 with a strong reading of the fusion hypothesis.
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \caption{Corroborated outcome records contributing to the quantitative synthesis. Every value
 was recovered from the publisher or indexed record; no value is taken from a secondary
@@ -843,9 +852,9 @@ the analysis in Sections~4.3 and~4.4 is restricted to within-study contrasts; wh
 Figure~\ref{fig:modality} does establish is that the between-study evidence conventionally
 cited in support of fusion contains no visible modality effect to begin with.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.86\textwidth]{fig5_modality.png}
+\includegraphics[width=\textwidth]{fig5_modality.png}
 \caption{Corroborated classification accuracy grouped by sensing configuration. Boxes show
 the median and interquartile range, individual records are overlaid, and the number of
 records $k$ and the group median are annotated. The distributions overlap across
@@ -927,9 +936,9 @@ saturated for subject-dependent and LOSO evaluation and remains far from saturat
 genuine subject-independent generalization, which is the regime relevant to deployment and
 the one almost nobody reports.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.99\textwidth]{fig6_wesad.png}
+\includegraphics[width=\textwidth]{fig6_wesad.png}
 \caption{Saturation of the WESAD benchmark. Figure~\ref{fig:wesad}(a) ranks all corroborated
 WESAD records by reported accuracy, with each bar colored by the validation protocol and the
 number of classes given in the label. Figure~\ref{fig:wesad}(b) stratifies the same records by
@@ -945,7 +954,7 @@ Four studies in the corpus report a single-modality baseline and a multimodal re
 same cohort, with the same pipeline and under the same validation protocol.
 Table~\ref{tab:t5} gives these contrasts and Figure~\ref{fig:fusion} displays them.
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \caption{Within-study, protocol-matched contrasts between the best single modality and the
 multimodal configuration. Each row holds cohort, pipeline and validation protocol fixed, so
@@ -967,9 +976,9 @@ Kim et al. \cite{r37} & GSR & EEG+GSR & Feature-level & 30 & 94.40 & 95.40 & $+$
 \end{tabular}}
 \end{table}
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.99\textwidth]{fig7_fusion.png}
+\includegraphics[width=\textwidth]{fig7_fusion.png}
 \caption{Within-study fusion gain. Figure~\ref{fig:fusion}(a) shows each study as a line
 connecting its best single-modality result to its multimodal result under an identical
 protocol, colored by fusion level. Figure~\ref{fig:fusion}(b) shows the magnitude of each
@@ -1000,7 +1009,7 @@ and data-generating process fixed. Table~\ref{tab:t6} lists them and
 Figure~\ref{fig:protocol} compares them against the fusion gains of Section~4.3 on a common
 scale.
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \caption{Within-study contrasts attributable to evaluation choices. Each row reports the same
 model or pipeline under a more favorable and a more realistic evaluation condition. The
@@ -1029,9 +1038,9 @@ Shikha et al. \cite{r53} & Two-level vs three-level stress & Task granularity & 
 \end{tabular}}
 \end{table}
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.99\textwidth]{fig8_protocol_vs_fusion.png}
+\includegraphics[width=\textwidth]{fig8_protocol_vs_fusion.png}
 \caption{Evaluation effects against fusion effects. Figure~\ref{fig:protocol}(a) shows each
 within-study evaluation contrast as a segment joining the favorable and the realistic
 condition, colored by the source of the difference and annotated with the gap in percentage
@@ -1080,9 +1089,9 @@ Figure~\ref{fig:transfer}(a) shows the three contrasts in which a model was eval
 its development condition and on a transfer condition. Figure~\ref{fig:transfer}(b) plots
 corroborated accuracy against evaluation cohort size on a logarithmic axis.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.99\textwidth]{fig9_transfer.png}
+\includegraphics[width=\textwidth]{fig9_transfer.png}
 \caption{Transfer behavior and the absence of a cohort-size effect.
 Figure~\ref{fig:transfer}(a) contrasts performance on the development condition with
 performance on the transfer condition for the three studies reporting both, annotated with
@@ -1107,9 +1116,9 @@ each reporting item: the evaluation cohort size was recoverable for 18 studies (
 whether a public benchmark was used for 14 (23.3\%), the validation protocol for 8 (13.3\%)
 and any variance or confidence interval for only 3 (5.0\%).
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.99\textwidth]{fig10_verifiability.png}
+\includegraphics[width=\textwidth]{fig10_verifiability.png}
 \caption{Verification and reporting audit across all 60 included studies.
 Figure~\ref{fig:verify}(a) shows the proportion of studies for which a headline outcome could
 be independently corroborated from the openly retrievable record.
@@ -1127,7 +1136,7 @@ describes subject-dependent or subject-independent performance. Given that this 
 distinction is worth up to $27.41$ pp of accuracy and $48.66$ pp of F1 within one study
 \cite{r33}, an unlabeled accuracy figure in this literature carries very little information.
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \caption{Constraints on deployment, the corroborated quantitative evidence for each, and its
 implication. Only effects supported by a within-study contrast or a directly corroborated
