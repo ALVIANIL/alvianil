@@ -4,7 +4,9 @@
 %% Self-contained LaTeX source. Compile with:
 %%     pdflatex Manuscript_BSPC.tex && pdflatex Manuscript_BSPC.tex
 %% Requires: texlive-latex-extra, texlive-pictures, texlive-fonts-recommended.
-%% Keep the figures/ directory alongside this file.
+%% Keep the figures/ directory alongside this file (Overleaf: upload the
+%% supplied Overleaf zip with "New Project > Upload Project", which already
+%% contains this .tex plus the figures/ folder).
 
 \documentclass[11pt,a4paper]{article}
 \usepackage[margin=0.7in]{geometry}
@@ -13,6 +15,7 @@
 \usepackage{times}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
+\graphicspath{{figures/}{./}{../figures/}}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{tabularx}
@@ -177,92 +180,226 @@ stage that determines what any reported accuracy actually means.
 
 \begin{figure}[H]
 \centering
-\resizebox{0.97\textwidth}{!}{\begin{tikzpicture}[node distance=3.2mm]
+\resizebox{\textwidth}{!}{\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily,
+  card/.style={rectangle, rounded corners=1.2mm, draw=#1, fill=#1!6,
+               line width=0.55pt, align=center, inner sep=0pt},
+  stage/.style={rectangle, rounded corners=1mm, fill=black!5, draw=none,
+                inner sep=0pt, minimum width=17mm, align=center,
+                font=\sffamily\bfseries\footnotesize, text=black!62},
+  chip/.style={rectangle, rounded corners=0.9mm, draw=#1!70, fill=white,
+               line width=0.45pt, inner xsep=1.7mm, inner ysep=1.0mm,
+               font=\sffamily\footnotesize, text=#1!55!black},
+  flow/.style={-{Straight Barb[length=1.5mm, width=1.5mm]},
+               line width=0.8pt, draw=black!45},
+  loop/.style={-{Straight Barb[length=1.5mm, width=1.5mm]},
+               line width=0.7pt, draw=RED!75, dash pattern=on 1.4mm off 1.1mm},
+  ttl/.style={font=\sffamily\bfseries\footnotesize, text=black!85},
+  sub/.style={font=\sffamily\footnotesize, text=black!58},
+]
 
-% ---- Layer 1: acquisition
-\node[sens] (ecg)  {ECG / HRV\\chest, patch};
-\node[sens,right=of ecg] (ppg) {PPG / BVP\\wrist, in-ear};
-\node[sens,right=of ppg] (eda) {EDA \& skin\\temperature};
-\node[sens,right=of eda] (eeg) {EEG\\scalp, behind-ear};
-\node[sens,right=of eeg] (imu) {IMU\\accel., gyro.};
-\node[sens,right=14mm of imu] (cam) {RGB camera\\face, gaze, pose};
+\definecolor{GRN}{HTML}{2F7A4F}
+\definecolor{PUR}{HTML}{7A4FA8}
+\definecolor{ORG}{HTML}{C2701C}
+\definecolor{BLU}{HTML}{2B6CB0}
+\definecolor{RED}{HTML}{C03434}
+\definecolor{TEA}{HTML}{2C7A7B}
+\definecolor{GLD}{HTML}{A9761A}
 
+%% ---------- geometry ----------
+\def\SW{27}   % sensor card width
+\def\SH{20}   % sensor card height
+\def\GAP{2.6} % gap between sensor cards
+\def\LX{-25}  % stage label column x
 
-% ---- Layer 2: conditioning
-\node[proc,below=9mm of ppg.south,xshift=-6mm,text width=44mm] (cond)
-     {\textbf{Signal conditioning}\\band-pass filtering, motion-artifact
-      rejection, resampling, signal-quality gating};
-\node[proc,below=9mm of eeg.south,xshift=14mm,text width=44mm] (vis)
-     {\textbf{Vision front end}\\face detection, landmarks, action units,
-      gaze, rPPG extraction};
+% mini waveform helper: #1 colour, #2 anchor node, #3 y-offset, #4 coords
+\newcommand{\wave}[3]{\draw[line width=0.55pt, draw=#1, line cap=round] #2 #3;}
 
-% ---- Layer 3: representation
-\node[proc,below=7mm of cond,text width=44mm] (feat)
-     {\textbf{Representation}\\HRV indices, EDA phasic/tonic, spectral
-      and time--frequency maps, learned embeddings};
-\node[proc,below=7mm of vis,text width=44mm] (vfeat)
-     {\textbf{Representation}\\AU intensities, blink and fixation
-      statistics, rPPG-derived HR};
+%% ================= STAGE 1 : ACQUISITION =================
+\node[card=GRN, minimum width=\SW mm, minimum height=\SH mm] (s1) at (0,0) {};
+\node[card=GRN, minimum width=\SW mm, minimum height=\SH mm] (s2) at (\SW+\GAP,0) {};
+\node[card=GRN, minimum width=\SW mm, minimum height=\SH mm] (s3) at (2*\SW+2*\GAP,0) {};
+\node[card=GRN, minimum width=\SW mm, minimum height=\SH mm] (s4) at (3*\SW+3*\GAP,0) {};
+\node[card=GRN, minimum width=\SW mm, minimum height=\SH mm] (s5) at (4*\SW+4*\GAP,0) {};
+\node[card=PUR, minimum width=\SW mm, minimum height=\SH mm] (s6)
+      at (5*\SW+5*\GAP+7,0) {};
 
-% ---- Layer 4: fusion
-\node[fuse,below=8mm of $(feat.south)!0.5!(vfeat.south)$,text width=96mm] (fus)
-     {\textbf{Fusion stage}\quad
-      feature level (early) \quad$\vert$\quad decision level (late)
-      \quad$\vert$\quad hybrid and context gated};
+\foreach \n/\t/\l in {s1/{ECG / HRV}/{chest, patch},
+                      s2/{PPG / BVP}/{wrist, in-ear},
+                      s3/{EDA, skin temp.}/{wrist, finger},
+                      s4/{EEG}/{scalp, behind-ear},
+                      s5/{IMU}/{accel., gyro.},
+                      s6/{RGB camera}/{face, gaze, pose}} {
+  \node[ttl] at ([yshift=6.0mm]\n.center) {\t};
+  \node[sub] at ([yshift=2.9mm]\n.center) {\l};
+}
 
-% ---- Layer 5: inference
-\node[blk,below=7mm of fus,text width=96mm] (mdl)
-     {\textbf{Inference}\quad classical ML (RF, XGBoost, SVM)\quad$\vert$\quad
-      CNN, LSTM, hybrid CNN--LSTM\quad$\vert$\quad transformer and
-      attention models};
-
-% ---- Layer 6: evaluation gate (the contribution of this review)
-\node[outp,below=7mm of mdl,text width=96mm,fill=red!8] (ev)
-     {\textbf{Evaluation protocol}\quad personalized $\vert$ subject dependent
-      $\vert$ leave-one-subject-out $\vert$ cross-dataset\\
-      \textit{determines what the reported accuracy actually means}};
-
-% ---- Layer 7: outputs
-\node[outp,below=8mm of ev.south,xshift=-33mm,text width=28mm] (o1)
-     {Stress state\\and level};
-\node[outp,right=4mm of o1,text width=28mm] (o2) {Attention, drowsiness,\\cognitive load};
-\node[outp,right=4mm of o2,text width=28mm] (o3) {Closed-loop feedback\\and actuation};
-
-\begin{scope}[on background layer]
-  \node[fit=(ecg)(imu),draw=green!45!black,dashed,rounded corners,
-        inner sep=2.6mm,fill=green!3] (w) {};
-  \node[fit=(cam),draw=purple!55!black,dashed,rounded corners,
-        inner sep=2.6mm,fill=purple!3] (v) {};
+% --- signal glyphs ---
+\begin{scope}[shift={([yshift=-3.6mm]s1.center)}]   % ECG
+  \draw[line width=0.62pt, draw=GRN, line join=round]
+    (-12,0) -- (-9.4,0) -- (-8.9,0.55) -- (-8.4,-0.9) -- (-8.05,3.3)
+    -- (-7.7,-3.4) -- (-7.3,1.2) -- (-6.7,-0.25) -- (-4.6,0)
+    -- (-2.0,0) -- (-1.5,0.55) -- (-1.0,-0.9) -- (-0.65,3.3)
+    -- (-0.3,-3.4) -- (0.1,1.2) -- (0.7,-0.25) -- (2.8,0)
+    -- (5.4,0) -- (5.9,0.55) -- (6.4,-0.9) -- (6.75,3.3)
+    -- (7.1,-3.4) -- (7.5,1.2) -- (8.1,-0.25) -- (12,0);
 \end{scope}
-\node[above=0.6mm of w.north,font=\scriptsize\itshape,text=green!35!black]
-     {Wearable physiological and inertial channels (contact)};
-\node[above=0.6mm of v.north,font=\scriptsize\itshape,text=purple!45!black]
-     {Camera (contactless)};
+\begin{scope}[shift={([yshift=-3.6mm]s2.center)}]   % PPG
+  \draw[line width=0.62pt, draw=GRN, smooth]
+    plot[domain=-12:12, samples=110]
+    (\x, {1.05*sin((\x+12)*45)^2 + 0.42*sin((\x+12)*90) - 0.9});
+\end{scope}
+\begin{scope}[shift={([yshift=-3.6mm]s3.center)}]   % EDA
+  \draw[line width=0.62pt, draw=GRN, smooth]
+    plot[domain=-12:12, samples=80]
+    (\x, {-2.1 + 0.075*(\x+12) + 2.05*exp(-((\x-1)/3.4)^2)});
+\end{scope}
+\begin{scope}[shift={([yshift=-3.6mm]s4.center)}]   % EEG
+  \draw[line width=0.55pt, draw=GRN, smooth]
+    plot[domain=-12:12, samples=180]
+    (\x, {0.95*sin(\x*152) + 0.62*sin(\x*63) + 0.34*sin(\x*311)});
+\end{scope}
+\begin{scope}[shift={([yshift=-3.6mm]s5.center)}]   % IMU
+  \draw[line width=0.55pt, draw=GRN]
+    (-12,1.3) -- (-8,1.3) -- (-8,2.5) -- (-4,2.5) -- (-4,0.9) -- (0.5,0.9)
+    -- (0.5,2.1) -- (5,2.1) -- (5,1.3) -- (12,1.3);
+  \draw[line width=0.55pt, draw=GRN!62]
+    (-12,-1.0) -- (-6.5,-1.0) -- (-6.5,-2.3) -- (-1.5,-2.3) -- (-1.5,-0.3)
+    -- (3.5,-0.3) -- (3.5,-1.6) -- (12,-1.6);
+\end{scope}
+\begin{scope}[shift={([yshift=-3.7mm]s6.center)}]   % camera: face + gaze cone
+  \draw[line width=0.5pt, draw=PUR!55, dash pattern=on 0.7mm off 0.6mm]
+        (-5.2,-3.9) rectangle (5.2,4.1);
+  \draw[line width=0.62pt, draw=PUR] (-1.6,0) ellipse [x radius=2.9, y radius=3.5];
+  \fill[PUR] (-2.65,0.95) circle (0.33);
+  \fill[PUR] (-0.55,0.95) circle (0.33);
+  \draw[line width=0.45pt, draw=PUR] (-2.7,-1.4) .. controls (-1.6,-2.4) .. (-0.5,-1.4);
+  \draw[line width=0.4pt, draw=PUR!55] (-0.55,0.95) -- (4.6,2.5);
+  \draw[line width=0.4pt, draw=PUR!55] (-0.55,0.95) -- (4.6,-0.6);
+  \fill[PUR!14] (-0.55,0.95) -- (4.6,2.5) -- (4.6,-0.6) -- cycle;
+\end{scope}
 
-\draw[ar] (w.south) -- (cond.north);
-\draw[ar] (v.south) -- (vis.north);
-\draw[ar] (cond) -- (feat);
-\draw[ar] (vis) -- (vfeat);
-\draw[ar] (feat.south) -- ([xshift=-24mm]fus.north);
-\draw[ar] (vfeat.south) -- ([xshift=24mm]fus.north);
-\draw[ar] (fus) -- (mdl);
-\draw[ar] (mdl) -- (ev);
-\draw[ar] (ev.south) -- ++(0,-3mm) -| (o1.north);
-\draw[ar] (ev.south) -- ++(0,-3mm) -| (o2.north);
-\draw[ar] (ev.south) -- ++(0,-3mm) -| (o3.north);
-\draw[ar,dashed,draw=red!65!black] (o3.east) -- ++(12mm,0)
-      node[pos=0.82,below=1mm,font=\scriptsize\itshape,text=red!60!black,
-           align=center] {closed-loop\\actuation}
-      |- ([yshift=-1.2mm]w.east);
+% group frames
+\begin{scope}[on background layer]
+  \node[draw=GRN!55, dash pattern=on 1.1mm off 0.9mm, rounded corners=1.5mm,
+        line width=0.6pt, fill=GRN!3, fit=(s1)(s5), inner sep=2.4mm] (wgrp) {};
+  \node[draw=PUR!55, dash pattern=on 1.1mm off 0.9mm, rounded corners=1.5mm,
+        line width=0.6pt, fill=PUR!3, fit=(s6), inner sep=2.4mm] (vgrp) {};
+\end{scope}
+\node[font=\sffamily\bfseries\footnotesize, text=GRN, above=1.3mm of wgrp.north]
+      {CONTACT SENSING: wearable physiological and inertial channels};
+\node[font=\sffamily\bfseries\footnotesize, text=PUR, above=1.3mm of vgrp.north]
+      {CONTACTLESS};
+
+%% ================= STAGE 2 : CONDITIONING =================
+\def\CW{91}
+\node[card=ORG, minimum width=\CW mm, minimum height=16mm] (c1) at (32.2,-31) {};
+\node[card=ORG, minimum width=78mm, minimum height=16mm] (c2) at (127,-31) {};
+\node[ttl] at ([yshift=4.3mm]c1.center) {Signal conditioning};
+\node[sub, align=center] at ([yshift=-1.3mm]c1.center)
+      {band-pass filtering \ \textbullet\ \ motion-artifact rejection\\
+       resampling \ \textbullet\ \ signal-quality gating};
+\node[ttl] at ([yshift=4.3mm]c2.center) {Vision front end};
+\node[sub, align=center] at ([yshift=-1.3mm]c2.center)
+      {face detection \ \textbullet\ \ facial landmarks\\
+       action units \ \textbullet\ \ gaze \ \textbullet\ \ rPPG extraction};
+
+%% ================= STAGE 3 : REPRESENTATION =================
+\node[card=ORG, minimum width=\CW mm, minimum height=16mm] (r1) at (32.2,-52) {};
+\node[card=ORG, minimum width=78mm, minimum height=16mm] (r2) at (127,-52) {};
+\node[ttl] at ([yshift=4.3mm]r1.center) {Physiological representation};
+\node[sub, align=center] at ([yshift=-1.3mm]r1.center)
+      {HRV indices \ \textbullet\ \ EDA phasic and tonic components\\
+       time-frequency maps \ \textbullet\ \ learned embeddings};
+\node[ttl] at ([yshift=4.3mm]r2.center) {Behavioral representation};
+\node[sub, align=center] at ([yshift=-1.3mm]r2.center)
+      {action-unit intensities \ \textbullet\ \ blink rate\\
+       fixation statistics \ \textbullet\ \ rPPG-derived heart rate};
+
+%% ================= STAGE 4 : FUSION =================
+\node[card=TEA, minimum width=179.4mm, minimum height=15mm] (fu) at (76.2,-73) {};
+\node[ttl, anchor=west] at ([xshift=4mm,yshift=3.6mm]fu.west) {Fusion stage};
+\node[chip=TEA, anchor=west] (f1) at ([xshift=4mm,yshift=-2.6mm]fu.west)
+      {feature level (early)};
+\node[chip=TEA, right=3mm of f1] (f2) {decision level (late)};
+\node[chip=TEA, right=3mm of f2] (f3) {hybrid, multi-stage};
+\node[chip=TEA, right=3mm of f3] (f4) {context gated};
+\node[sub, anchor=east] at ([xshift=-4mm,yshift=3.6mm]fu.east)
+      {median within-study gain \textbf{+4.67 pp}};
+
+%% ================= STAGE 5 : INFERENCE =================
+\node[card=BLU, minimum width=179.4mm, minimum height=15mm] (inf) at (76.2,-92) {};
+\node[ttl, anchor=west] at ([xshift=4mm,yshift=3.6mm]inf.west) {Inference model};
+\node[chip=BLU, anchor=west] (i1) at ([xshift=4mm,yshift=-2.6mm]inf.west)
+      {classical ML: RF, XGBoost, SVM};
+\node[chip=BLU, right=3mm of i1] (i2) {CNN, LSTM, CNN--LSTM};
+\node[chip=BLU, right=3mm of i2] (i3) {transformer, attention};
+\node[chip=BLU, right=3mm of i3] (i4) {foundation model};
+
+%% ================= STAGE 6 : EVALUATION (focus) =================
+\node[rectangle, rounded corners=1.4mm, draw=RED, fill=RED!7, line width=1.15pt,
+      minimum width=179.4mm, minimum height=19mm, inner sep=0pt] (ev) at (76.2,-113) {};
+\node[ttl, anchor=west, text=RED!72!black]
+      at ([xshift=4mm,yshift=5.2mm]ev.west) {Evaluation protocol};
+\node[chip=RED, anchor=west] (e1) at ([xshift=4mm,yshift=-0.6mm]ev.west) {personalized};
+\node[chip=RED, right=3mm of e1] (e2) {subject dependent};
+\node[chip=RED, right=3mm of e2] (e3) {leave-one-subject-out};
+\node[chip=RED, right=3mm of e3] (e4) {cross-dataset};
+\node[chip=RED, right=3mm of e4] (e5) {laboratory vs field};
+\node[font=\sffamily\itshape\footnotesize, text=RED!72!black, anchor=west]
+      at ([xshift=4mm,yshift=-5.9mm]ev.west)
+      {this stage, not the fusion stage, sets what a reported accuracy means:
+       median within-study swing \textbf{9.14 pp}, up to \textbf{48.66 pp}};
+
+%% ================= STAGE 7 : OUTPUT =================
+\node[card=GLD, minimum width=57mm, minimum height=14mm] (o1) at (15,-137) {};
+\node[card=GLD, minimum width=57mm, minimum height=14mm] (o2) at (76.2,-137) {};
+\node[card=GLD, minimum width=57mm, minimum height=14mm] (o3) at (137.4,-137) {};
+\node[ttl] at ([yshift=2.6mm]o1.center) {Stress state and level};
+\node[sub] at ([yshift=-1.7mm]o1.center) {binary or graded};
+\node[ttl] at ([yshift=2.6mm]o2.center) {Attention and drowsiness};
+\node[sub] at ([yshift=-1.7mm]o2.center) {cognitive load, inattention};
+\node[ttl] at ([yshift=2.6mm]o3.center) {Closed-loop actuation};
+\node[sub] at ([yshift=-1.7mm]o3.center) {feedback, neurostimulation};
+
+%% ================= stage labels =================
+\node[stage, minimum height=\SH mm]  at (\LX, 0)    {ACQUIRE};
+\node[stage, minimum height=16mm]    at (\LX,-31)   {CONDITION};
+\node[stage, minimum height=16mm]    at (\LX,-52)   {REPRESENT};
+\node[stage, minimum height=15mm]    at (\LX,-73)   {FUSE};
+\node[stage, minimum height=15mm]    at (\LX,-92)   {INFER};
+\node[stage, minimum height=19mm, fill=RED!12, text=RED!70!black] at (\LX,-113) {EVALUATE};
+\node[stage, minimum height=14mm]    at (\LX,-137)  {DECIDE};
+
+%% ================= flow arrows =================
+\draw[flow] (wgrp.south) -- (c1.north);
+\draw[flow] (vgrp.south) -- (c2.north);
+\draw[flow] (c1) -- (r1);
+\draw[flow] (c2) -- (r2);
+\draw[flow] (r1.south) -- ++(0,-3) -| ([xshift=-44mm]fu.north);
+\draw[flow] (r2.south) -- ++(0,-3) -| ([xshift=44mm]fu.north);
+\draw[flow] (fu) -- (inf);
+\draw[flow] (inf) -- (ev);
+\draw[flow] (ev.south) -- ++(0,-4) -| (o1.north);
+\draw[flow] (ev.south) -- ++(0,-4) -| (o2.north);
+\draw[flow] (ev.south) -- ++(0,-4) -| (o3.north);
+\draw[loop] (o3.east) -- ++(8.5,0) |- ([yshift=-1.5mm]vgrp.east);
+\node[font=\sffamily\itshape\footnotesize, text=RED!75, anchor=south, align=center,
+      fill=white, inner sep=0.6mm, rotate=90]
+      at ([xshift=10mm,yshift=28mm]o3.east) {closed-loop actuation};
 \end{tikzpicture}
 }
-\caption{Processing chain shared by wearable and camera-based stress and attention
-monitoring systems. Contact channels and the contactless camera channel are conditioned and
-represented separately, combined at a feature, decision or hybrid fusion stage, and passed to
-an inference model. The evaluation protocol stage is drawn explicitly because the same model
-and the same data yield materially different reported performance depending on whether
-evaluation is personalized, subject dependent, subject independent or cross-dataset. The
-dashed return path denotes closed-loop actuation.}
+\caption{Seven-stage processing chain shared by the wearable and camera-based stress and
+attention monitoring systems reviewed here, with a representative trace drawn inside each
+acquisition card. Contact channels (green) and the contactless camera channel (purple) are
+conditioned and represented separately before being combined at a feature, decision, hybrid
+or context-gated fusion stage and passed to an inference model. The evaluation protocol is
+drawn as a stage of equal standing, and highlighted, because it is the stage that determines
+what a reported accuracy means: the median within-study swing attributable to it is 9.14
+percentage points against 4.67 for the fusion stage. The dashed return path denotes
+closed-loop actuation, in which a decision drives stimulation or feedback that the sensors
+then observe.}
 \label{fig:block}
 \end{figure}
 
@@ -559,7 +696,7 @@ favorable and least representative of deployment.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.99\textwidth]{figures/fig3_corpus.png}
+\includegraphics[width=0.99\textwidth]{fig3_corpus.png}
 \caption{Composition of the included corpus. Figure~\ref{fig:corpus}(a) shows the number of
 included studies per publication year, with each bar decomposed by application area and the
 annual total printed above the bar. Figure~\ref{fig:corpus}(b) shows the total number of
@@ -575,7 +712,7 @@ area does not in fact report a stress or attention outcome.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.99\textwidth]{figures/fig4_screening.png}
+\includegraphics[width=0.99\textwidth]{fig4_screening.png}
 \caption{Screening outcome and corpus provenance. Figure~\ref{fig:screen}(a) shows the number
 of records excluded under each eligibility criterion, with the percentage of all exclusions
 annotated. Figure~\ref{fig:screen}(b) shows the publisher of record for the 60 included
@@ -708,7 +845,7 @@ cited in support of fusion contains no visible modality effect to begin with.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.86\textwidth]{figures/fig5_modality.png}
+\includegraphics[width=0.86\textwidth]{fig5_modality.png}
 \caption{Corroborated classification accuracy grouped by sensing configuration. Boxes show
 the median and interquartile range, individual records are overlaid, and the number of
 records $k$ and the group median are annotated. The distributions overlap across
@@ -792,7 +929,7 @@ the one almost nobody reports.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.99\textwidth]{figures/fig6_wesad.png}
+\includegraphics[width=0.99\textwidth]{fig6_wesad.png}
 \caption{Saturation of the WESAD benchmark. Figure~\ref{fig:wesad}(a) ranks all corroborated
 WESAD records by reported accuracy, with each bar colored by the validation protocol and the
 number of classes given in the label. Figure~\ref{fig:wesad}(b) stratifies the same records by
@@ -832,7 +969,7 @@ Kim et al. \cite{r37} & GSR & EEG+GSR & Feature-level & 30 & 94.40 & 95.40 & $+$
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.99\textwidth]{figures/fig7_fusion.png}
+\includegraphics[width=0.99\textwidth]{fig7_fusion.png}
 \caption{Within-study fusion gain. Figure~\ref{fig:fusion}(a) shows each study as a line
 connecting its best single-modality result to its multimodal result under an identical
 protocol, colored by fusion level. Figure~\ref{fig:fusion}(b) shows the magnitude of each
@@ -894,7 +1031,7 @@ Shikha et al. \cite{r53} & Two-level vs three-level stress & Task granularity & 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.99\textwidth]{figures/fig8_protocol_vs_fusion.png}
+\includegraphics[width=0.99\textwidth]{fig8_protocol_vs_fusion.png}
 \caption{Evaluation effects against fusion effects. Figure~\ref{fig:protocol}(a) shows each
 within-study evaluation contrast as a segment joining the favorable and the realistic
 condition, colored by the source of the difference and annotated with the gap in percentage
@@ -945,7 +1082,7 @@ corroborated accuracy against evaluation cohort size on a logarithmic axis.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.99\textwidth]{figures/fig9_transfer.png}
+\includegraphics[width=0.99\textwidth]{fig9_transfer.png}
 \caption{Transfer behavior and the absence of a cohort-size effect.
 Figure~\ref{fig:transfer}(a) contrasts performance on the development condition with
 performance on the transfer condition for the three studies reporting both, annotated with
@@ -972,7 +1109,7 @@ and any variance or confidence interval for only 3 (5.0\%).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.99\textwidth]{figures/fig10_verifiability.png}
+\includegraphics[width=0.99\textwidth]{fig10_verifiability.png}
 \caption{Verification and reporting audit across all 60 included studies.
 Figure~\ref{fig:verify}(a) shows the proportion of studies for which a headline outcome could
 be independently corroborated from the openly retrievable record.

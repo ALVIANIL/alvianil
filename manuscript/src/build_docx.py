@@ -85,7 +85,8 @@ s = s.replace('\\newpage', '\\clearpage')
 open('main_docx.tex', 'w').write(s)
 r = subprocess.run(['pandoc', 'main_docx.tex', '-f', 'latex', '-o',
                     '/home/user/alvianil/manuscript/Manuscript_BSPC.docx',
-                    '--resource-path=.:..:../figures', '--wrap=none'],
+                    '--resource-path=.:..:../figures', '--wrap=none',
+                    '--reference-doc=reference_justified.docx'],
                    capture_output=True, text=True)
 print('pandoc rc', r.returncode, (r.stderr or '')[:800])
 print('figures numbered:', cf, ' tables numbered:', ct)

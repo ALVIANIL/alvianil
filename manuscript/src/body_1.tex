@@ -63,14 +63,17 @@ stage that determines what any reported accuracy actually means.
 
 \begin{figure}[H]
 \centering
-\resizebox{0.97\textwidth}{!}{\input{fig1_block.tex}}
-\caption{Processing chain shared by wearable and camera-based stress and attention
-monitoring systems. Contact channels and the contactless camera channel are conditioned and
-represented separately, combined at a feature, decision or hybrid fusion stage, and passed to
-an inference model. The evaluation protocol stage is drawn explicitly because the same model
-and the same data yield materially different reported performance depending on whether
-evaluation is personalized, subject dependent, subject independent or cross-dataset. The
-dashed return path denotes closed-loop actuation.}
+\resizebox{\textwidth}{!}{\input{fig1_block.tex}}
+\caption{Seven-stage processing chain shared by the wearable and camera-based stress and
+attention monitoring systems reviewed here, with a representative trace drawn inside each
+acquisition card. Contact channels (green) and the contactless camera channel (purple) are
+conditioned and represented separately before being combined at a feature, decision, hybrid
+or context-gated fusion stage and passed to an inference model. The evaluation protocol is
+drawn as a stage of equal standing, and highlighted, because it is the stage that determines
+what a reported accuracy means: the median within-study swing attributable to it is 9.14
+percentage points against 4.67 for the fusion stage. The dashed return path denotes
+closed-loop actuation, in which a decision drives stimulation or feedback that the sensors
+then observe.}
 \label{fig:block}
 \end{figure}
 

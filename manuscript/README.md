@@ -11,6 +11,7 @@ Monitoring: Systematic Review and Meta-Analysis
 |---|---|
 | `Manuscript_BSPC.pdf` | Compiled manuscript, 0.7 in margins, 22 pages |
 | `Manuscript_BSPC.tex` | Self-contained LaTeX source (all inputs inlined) |
+| `Manuscript_BSPC_Overleaf.zip` | Ready for Overleaf: New Project > Upload Project |
 | `Manuscript_BSPC.docx` | Word version with all 10 figures, 7 tables and a numbered reference list |
 | `src/` | Full LaTeX source |
 | `EVIDENCE_AUDIT.md` | Strict evidence audit of the uploaded manuscript |
@@ -18,22 +19,35 @@ Monitoring: Systematic Review and Meta-Analysis
 ## LaTeX source
 
 ```
-src/main.tex          master file
+src/main.tex            master file
 src/preamble.tex      0.7 in margins, TikZ styles, table column types
 src/titlepage.tex     title page with author details
 src/body_1..4.tex     abstract, introduction, related work, methodology, results,
                       trends, discussion, conclusion
-src/fig1_block.tex    Figure 1, system block diagram, native TikZ
-src/fig2_prisma.tex   Figure 2, PRISMA flow diagram, native TikZ
-src/tab1,3,4,5,6.tex  generated tables (do not edit by hand)
-src/bibliography.tex  generated reference list in first-citation order
+src/fig1_block.tex      Figure 1, block diagram, TikZ (generated, do not hand-edit)
+src/fig2_prisma.tex     Figure 2, PRISMA flow, TikZ (generated, do not hand-edit)
+src/tab1,3,4,5,6.tex    generated tables (do not hand-edit)
+src/bibliography.tex    generated reference list in first-citation order
+src/make_all_figures.py ALL figure code, self-contained
+src/reference_justified.docx  pandoc style template giving justified body text
+```
+
+### One script for every figure
+
+`src/make_all_figures.py` is standalone: it embeds the complete evidence base and
+needs no other project file. It emits the TikZ source for Figures 1 and 2 and
+renders Figures 3 to 10 as PNG.
+
+```bash
+python3 make_all_figures.py --stats          # regenerate everything, print the statistics
+python3 make_all_figures.py --outdir OUT --texdir TEX
 ```
 
 ## Rebuilding
 
 ```bash
 cd src
-python3 make_figures.py     # Figures 3-10 from the verified evidence base
+python3 make_all_figures.py # Figures 1-10 (TikZ sources + rendered PNG)
 python3 make_tables.py      # Tables 1, 3, 4, 5, 6
 python3 make_bib.py         # reference list in citation order
 pdflatex main.tex && pdflatex main.tex
